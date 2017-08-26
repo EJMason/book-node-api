@@ -1,0 +1,34 @@
+{
+  "name": "headspace-book-node-api",
+  "version": "1.0.0",
+  "description": "Simple REST API allowing users to add and remove books to a library",
+  "main": "server.js",
+  "repository": "https://github.com/EJMason/headspace-book-node-api.git",
+  "author": "EJMason <eliotjunior@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "pretty": "prettier --single-quote --write \"./src/**/*.ts\"",
+    "ts-watch": "gulp watch-ts",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-batch": "^1.0.5",
+    "gulp-typescript": "^3.2.2",
+    "gulp-watch": "^4.3.11",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.0.4",
+    "prettier": "^1.5.3",
+    "tslint": "^5.7.0",
+    "typescript": "^2.4.2"
+  },
+  "dependencies": {
+    "express": "^4.15.4"
+  }
+}
