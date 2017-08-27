@@ -39,6 +39,7 @@ gulp.task('watch-ts', () => {
 
 // -------------------------------------------------- //
 gulp.task('clean:utils', () => {
+  gutil.log(gutil.colors.blue('\nRemoving old config files...\n'))
   // move custom tools to node modules
   // first delete the existing tools folder
   return gulp.src(PATHS.UTIL_DEST, {read: false})
@@ -46,7 +47,8 @@ gulp.task('clean:utils', () => {
     // move the utilites to node_modules for easier import
 })
 
-gulp.task('build:utils', () => {
+gulp.task('build:utils', ['clean:utils'], () => {
+  gutil.log(gutil.colors.blue('\nAdding utilities...\n'))
   return gulp.src([PATHS.UTIL_PATH_ALL], {base: './'})
     .pipe(gulp.dest(PATHS.UTIL_DEST))
 })

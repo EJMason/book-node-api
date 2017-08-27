@@ -9,7 +9,8 @@
   "scripts": {
     "pretty": "prettier --single-quote --write \"./src/**/*.ts\"",
     "ts-watch": "gulp watch-ts",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "postinstall": "gulp build:utils"
   },
   "lint-staged": {
     "*.ts": [
@@ -18,6 +19,8 @@
     ]
   },
   "dependencies": {
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "express": "^4.15.4",
     "winston": "^2.3.1"
@@ -33,6 +36,7 @@
     "husky": "^0.14.3",
     "lint-staged": "^4.0.4",
     "prettier": "^1.5.3",
+    "supertest": "^3.0.0",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2",
     "vinyl-paths": "^2.1.0"
