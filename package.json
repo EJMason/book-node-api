@@ -65,6 +65,7 @@
     "jest": "^20.0.4",
     "lint-staged": "^4.0.4",
     "nodemon": "^1.11.0",
+    "nyc": "^11.1.0",
     "prettier": "^1.5.3",
     "pump": "^1.0.2",
     "supertest": "^3.0.0",

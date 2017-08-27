@@ -19,3 +19,5 @@ app.listen(config.PORT, () => {
   );
   console.log('  Press CTRL-C to stop\n');
 });
+
+export default app;
