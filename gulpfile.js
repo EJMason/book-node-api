@@ -4,11 +4,10 @@ const batch = require('gulp-batch')
 const gutil = require('gulp-util')
 const ts = require('gulp-typescript')
 const clean = require('gulp-clean')
-const vinylPaths = require('vinyl-paths')
 
 const tsProject = ts.createProject('tsconfig.json')
 const PATHS = {
-  UTIL_DEST: 'node_modules/my',
+  UTIL_DEST: './node_modules/my',
   UTIL_PATH_ALL: 'util/**/*'
 }
 
@@ -23,7 +22,7 @@ gulp.task('two', () => {
   console.log('This is 2')
 })
 
-
+// --------------------------------------------------------- //
 gulp.task('build-ts', () => {
   gutil.log(gutil.colors.blue('\nCompiling TS files...\n'))
   var tsResult = tsProject.src()
@@ -34,7 +33,6 @@ gulp.task('build-ts', () => {
 
 gulp.task('watch-ts', () => {
   watch('src/**/*.ts', batch((events, done) => {
-    console.log(events)
     gulp.start('build-ts', done)
   }))
 })
@@ -49,6 +47,6 @@ gulp.task('clean:utils', () => {
 })
 
 gulp.task('build:utils', () => {
-  return gulp.src([PATHS.UTIL_PATH_ALL])
+  return gulp.src([PATHS.UTIL_PATH_ALL], {base: './'})
     .pipe(gulp.dest(PATHS.UTIL_DEST))
 })
