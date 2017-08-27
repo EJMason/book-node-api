@@ -2,7 +2,7 @@
 
 declare module 'my.config';
 
-export var nodeEnv: any;
+export var nodeEnv: string;
 export var isProd: string;
 export var PORT: string | number;
 export var db: dbTS;

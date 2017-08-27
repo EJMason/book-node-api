@@ -6,7 +6,7 @@ const opts = {
 
   db: {
     url: ""
-  }
+  },
 }
 
 module.exports = opts
