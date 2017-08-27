@@ -7,6 +7,9 @@
   "author": "EJMason <eliotjunior@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "start": "node ./dist/server.js",
+    "dev": "gulp build:utils && NODE_ENV=dev nodemon ./dist/server.js",
+    "test": "jest",
     "pretty": "prettier --single-quote --write \"./src/**/*.ts\"",
     "ts-watch": "gulp watch-ts",
     "precommit": "lint-staged",
@@ -18,7 +21,26 @@
       "git add"
     ]
   },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.json"
+      }
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "./node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": [
+      "**/test/**/*.test.(ts|js)"
+    ],
+    "testEnvironment": "node"
+  },
   "dependencies": {
+    "@types/supertest": "^2.0.3",
     "body-parser": "^1.17.2",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
@@ -26,7 +48,13 @@
     "winston": "^2.3.1"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.16.5",
+    "@types/cors": "^2.8.1",
+    "@types/dotenv": "^4.0.1",
     "@types/express": "^4.0.37",
+    "@types/jest": "^20.0.8",
+    "@types/node": "^8.0.25",
+    "@types/winston": "^2.3.5",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
@@ -34,9 +62,13 @@
     "gulp-typescript": "^3.2.2",
     "gulp-watch": "^4.3.11",
     "husky": "^0.14.3",
+    "jest": "^20.0.4",
     "lint-staged": "^4.0.4",
+    "nodemon": "^1.11.0",
     "prettier": "^1.5.3",
+    "pump": "^1.0.2",
     "supertest": "^3.0.0",
+    "ts-jest": "^20.0.10",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2",
     "vinyl-paths": "^2.1.0"

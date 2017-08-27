@@ -4,11 +4,11 @@ const batch = require('gulp-batch')
 const gutil = require('gulp-util')
 const ts = require('gulp-typescript')
 const clean = require('gulp-clean')
+const pump = require('pump')
 
 const tsProject = ts.createProject('tsconfig.json')
 const PATHS = {
-  UTIL_DEST: './node_modules/my',
-  UTIL_PATH_ALL: 'util/**/*'
+  UTIL_DEST: 'node_modules/my'
 }
 
 gulp.task('default1', ['one', 'two'] ,() => {
@@ -47,8 +47,10 @@ gulp.task('clean:utils', () => {
     // move the utilites to node_modules for easier import
 })
 
-gulp.task('build:utils', ['clean:utils'], () => {
+gulp.task('build:utils', ['clean:utils'], done => {
   gutil.log(gutil.colors.blue('\nAdding utilities...\n'))
-  return gulp.src([PATHS.UTIL_PATH_ALL], {base: './'})
-    .pipe(gulp.dest(PATHS.UTIL_DEST))
+  pump([
+    gulp.src(['util/**']),
+    gulp.dest(PATHS.UTIL_DEST)
+  ], done)
 })
