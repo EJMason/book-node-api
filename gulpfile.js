@@ -3,14 +3,14 @@ const watch = require('gulp-watch')
 const batch = require('gulp-batch')
 const gutil = require('gulp-util')
 const ts = require('gulp-typescript')
-const clean = require('gulp-clean')
 const pump = require('pump')
+const del = require('del')
 // const sourcemaps = require('gulp-sourcemaps')
 
 const tsProject = ts.createProject('tsconfig.json')
 
 const PATHS = {
-  UTIL_DEST: 'node_modules/my'
+  UTIL_DEST: 'node_modules'
 }
 
 // --------------------------------------------------------- //
@@ -34,11 +34,11 @@ gulp.task('watch-ts', () => {
 // -------------------------------------------------- //
 gulp.task('clean:utils', () => {
   gutil.log(gutil.colors.blue('\nRemoving old config files...\n'))
-  // move custom tools to node modules
-  // first delete the existing tools folder
-  return gulp.src(PATHS.UTIL_DEST, {read: false})
-    .pipe(clean())
-    // move the utilites to node_modules for easier import
+  // delete the existing tools folder
+  return del([
+    'node_modules/my.config/**',
+    'node_modules/my.logger/**',
+  ])
 })
 
 gulp.task('build:utils', ['clean:utils'], done => {
