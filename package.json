@@ -10,7 +10,7 @@
     "start": "node ./dist/server.js",
     "dev": "gulp build:utils && NODE_ENV=dev nodemon ./dist/server.js",
     "test": "jest",
-    "testci": "nyc jest",
+    "test-ci": "nyc jest",
     "pretty": "prettier --single-quote --write \"./src/**/*.ts\"",
     "ts-watch": "gulp watch-ts",
     "precommit": "lint-staged",
