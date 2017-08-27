@@ -1,20 +1,17 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import bodyParser from 'body-parser';
-import config from 'my.config';
-import log from 'my.logger';
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import * as config from 'my.config';
+import * as log from 'my.logger';
 
 import app from './appInstance';
-
-// load env variables
-dotenv.config(); // do I need the example here?
+import v1 from './routes/v1';
 
 //  Middlewares //
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // ---------- VERSIONING ----------------- //
-app.use('/v1', express.Router());
+app.use('/v1', v1);
 
 app.get('/', (req, res) => {
   res.status(200).send('hi');

@@ -3,6 +3,8 @@ const watch = require('gulp-watch')
 const batch = require('gulp-batch')
 const gutil = require('gulp-util')
 const ts = require('gulp-typescript')
+const nodemon = require('gulp-nodemon')
+
 const pump = require('pump')
 const del = require('del')
 // const sourcemaps = require('gulp-sourcemaps')
@@ -47,4 +49,14 @@ gulp.task('build:utils', ['clean:utils'], done => {
     gulp.src(['util/**']),
     gulp.dest(PATHS.UTIL_DEST)
   ], done)
+})
+
+gulp.task('dev:nodemon', () => {
+  nodemon({
+    script: './dist/server.js',
+    env: {
+      NODE_ENV: 'dev'
+    },
+    tasks: ['build:utils']
+  })
 })

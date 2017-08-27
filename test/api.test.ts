@@ -3,8 +3,8 @@ import app from '../src/server';
 
 const request = supertest('http://localhost:8000');
 
-describe('GET /api', () => {
+describe('GET /books', () => {
   it('should return 200 OK', () => {
-    request.get('/api').expect(200);
+    request.get('/v1/books').expect(200);
   });
 });
