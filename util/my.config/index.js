@@ -1,5 +1,5 @@
 
-module.exports = {
+const opts = {
   nodeEnv: process.env.NODE_ENV,
   isProd: process.env.NODE_ENV === 'production',
   PORT: process.env.PORT,
@@ -8,3 +8,5 @@ module.exports = {
     url: ""
   }
 }
+
+module.exports = opts

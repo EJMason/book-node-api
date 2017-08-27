@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
-import my from 'my.config';
+import config from 'my.config';
 
 import app from './appInstance';
 
