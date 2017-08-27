@@ -4,18 +4,14 @@ import * as config from 'my.config';
 import * as log from 'my.logger';
 
 import app from './appInstance';
-import v1 from './routes/v1';
+import v1 from './api/v1';
 
 //  Middlewares //
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// ---------- VERSIONING ----------------- //
+// Routing Supports versioning
 app.use('/v1', v1);
-
-app.get('/', (req, res) => {
-  res.status(200).send('hi');
-});
 
 app.listen(config.PORT, () => {
   console.log(
@@ -25,3 +21,5 @@ app.listen(config.PORT, () => {
   );
   console.log('-->Press CTRL-C to stop.\n');
 });
+
+export default app;

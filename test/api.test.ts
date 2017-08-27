@@ -1,10 +1,10 @@
 import supertest from 'supertest';
-import app from '../src/server';
+import app from '../dist/server';
 
-const request = supertest('http://localhost:8000');
+const request = supertest(app);
 
-describe('GET /books', () => {
+describe('GET /v1/books', () => {
   it('should return 200 OK', () => {
-    request.get('/v1/books').expect(200);
+    return request.get('/v1/books').expect(200);
   });
 });
