@@ -27,7 +27,7 @@ jobs:
           - ./node_modules
       - run:
           name: test/jest
-          command: yarn test
+          command: yarn run test-ci
       - run:
           name: code-coverage
           command: './node_modules/.bin/nyc report --reporter=text-lcov'
