@@ -1,32 +1,48 @@
-import * as path from 'path';
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
+import * as http from 'http';
+import app from './App';
+import config from './util/config';
 
-class App {
-  public app: express.Application;
+const server = http.createServer(app);
+const port = ensurePort(config.port);
 
-  constructor() {
-    this.app = express();
+app.set('port', port ? port : 8080);
 
-    // execute middleware
-    this.middleware();
-  }
+server.listen(port);
+server.on('error', onError);
 
-  private middleware(): void {
-    this.app.use(bodyParser.json());
-    this.app.use(bodyParser.urlencoded({ extended: false }));
-  }
+server.on('listening', () => {
+  const addr = server.address();
+  const uri = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+  console.log(`Server listening on ${uri}`);
+});
 
-  private routes_v1(): void {
-    const v1 = express.Router();
-    this.app.use('/v1', v1);
-
-    v1.get('/', (req, res) => {
-      res.status(200).send('Hello Boi!');
-    });
-
-    // pass router object to another folder
-  }
+/*
+  * usually I put this kind of stuff in a utilities folder, but didn't want
+  * to make you dig around from folder to folder. If there looks like a comment
+  * with a file path, that means I would separate the logic elsewhere.
+*/
+// !/utilities/server.utilities.ts
+function ensurePort(_port: number | string | undefined): number | boolean {
+  const port: any = typeof _port === 'string' ? parseInt(_port, 10) : _port;
+  if (isNaN(port)) {
+    process.exit(1);
+    return false;
+  } else if (port >= 0) return port;
+  else return false;
 }
 
-export default new App().app;
+function onError(error: NodeJS.ErrnoException): void {
+  if (error.syscall !== 'listen') throw error;
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+
+  if (error.code == 'EACCES') {
+    console.error(`${bind} requires elevated privileges`);
+    process.exit(1);
+  }
+  if (error.code == 'EADDRINUSE') {
+    console.error(`${bind} is already in use`);
+    process.exit(1);
+  }
+
+  throw error;
+}

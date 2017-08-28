@@ -7,15 +7,13 @@
   "author": "EJMason <eliotjunior@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "gulp nodemon",
-    "prod:start": "NODE_ENV='dev' node ./dist/server.js",
-    "dev": "gulp dev:nodemon",
+    "start": "node ./dist/server.js",
+    "build": "gulp build-ts",
+    "dev": "gulp nodemon",
     "test": "jest",
-    "clean": "gulp build:utils",
     "test-ci": "jest --coverage",
     "ts-watch": "gulp watch-ts",
-    "precommit": "lint-staged",
-    "postinstall": "gulp build:utils"
+    "precommit": "lint-staged"
   },
   "lint-staged": {
     "*.ts": [
@@ -44,11 +42,12 @@
   "dependencies": {
     "@types/supertest": "^2.0.3",
     "body-parser": "^1.17.2",
+    "chalk": "^2.1.0",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "express": "^4.15.4",
     "inquirer": "^3.2.2",
-    "winston": "^2.3.1"
+    "morgan": "^1.8.2"
   },
   "devDependencies": {
     "@types/body-parser": "^1.16.5",
@@ -57,9 +56,7 @@
     "@types/express": "^4.0.37",
     "@types/jest": "^20.0.8",
     "@types/node": "^8.0.25",
-    "@types/winston": "^2.3.5",
     "del": "^3.0.0",
-    "express-winston": "^2.4.0",
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
     "gulp-clean": "^0.3.2",
@@ -75,10 +72,10 @@
     "nyc": "^11.1.0",
     "prettier": "^1.5.3",
     "pump": "^1.0.2",
+    "run-sequence": "^2.1.0",
     "supertest": "^3.0.0",
     "ts-jest": "^20.0.10",
     "tslint": "^5.7.0",
-    "typescript": "^2.4.2",
-    "vinyl-paths": "^2.1.0"
+    "typescript": "^2.4.2"
   }
 }

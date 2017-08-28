@@ -16,7 +16,7 @@
       ],
       "no-var-keyword": true,
       "quotemark": [
-          true,
+          false,
           "single",
           "avoid-escape"
       ],
