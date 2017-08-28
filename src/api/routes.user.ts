@@ -5,9 +5,17 @@ export class UserRouting {
 
   constructor() {
     this.router = Router();
-    // * /v1/users/:user_id/books
+
+    // * [PUT] /v1/users
+    // * Create a new user
+    this.addNewUserAccount();
+
+    // * [GET | PUT | DELETE] /v1/users/:user_id/books
+    // * PUT/DELETE - Add and remove books to the user
     this.userLibraryRoutes();
-    // * /v1/users/:user_id/books/read
+
+    // * [PUT | DELETE] /v1/users/:user_id/books/read
+    // * Toggle books in a users library as read/unread
     this.toggleBookReadStatus();
   }
   public userLibraryRoutes() {
@@ -16,6 +24,7 @@ export class UserRouting {
       .all(this.ctrl_all)
       .get((req, res) => {
         // ! get books associated with a user
+        // TODO: add book from library
       })
       .put((req, res) => {
         // ! add books from a users library
