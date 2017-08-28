@@ -32,6 +32,6 @@ routers.users.delete('/:userId/books/read');
 
 // --------------------- router.books.ts --------------- //
 // ! add books to db
-routers.users.post('/');
+routers.books.post('/');
 
 export default routers;
