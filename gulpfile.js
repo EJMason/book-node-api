@@ -10,53 +10,33 @@ const del = require('del')
 // const sourcemaps = require('gulp-sourcemaps')
 
 const tsProject = ts.createProject('tsconfig.json')
-
-const PATHS = {
-  UTIL_DEST: 'node_modules'
-}
-
 // --------------------------------------------------------- //
 gulp.task('build-ts', () => {
   gutil.log(gutil.colors.blue('\nCompiling TS files...\n'))
-  var tsResult = tsProject.src()
-    // .pipe(sourcemaps.init())
+  return tsProject.src()
     .pipe(tsProject())
-
-  return tsResult.js
-    // .pipe(sourcemaps.write('./maps'))
-    .pipe(gulp.dest('dist'))
+    .js
+    .pipe(gulp.dest('dist2'))
 })
 
 gulp.task('watch-ts', () => {
-  watch('src/**/*.ts', batch((events, done) => {
-    gulp.start('build-ts', done)
-  }))
+  watch(
+    'src/**/*.ts',
+    batch((events) => gulp.start('build-ts'))
+  )
 })
 
-// -------------------------------------------------- //
-gulp.task('clean:utils', () => {
-  gutil.log(gutil.colors.blue('\nRemoving old config files...\n'))
-  // delete the existing tools folder
-  return del([
-    'node_modules/my.config/**',
-    'node_modules/my.logger/**',
-  ])
-})
+gulp.task('ts-batcher', () => batch((events) => gulp.start('build-ts')))
 
-gulp.task('build:utils', ['clean:utils'], done => {
-  gutil.log(gutil.colors.blue('\nAdding utilities...\n'))
-  pump([
-    gulp.src(['util/**']),
-    gulp.dest(PATHS.UTIL_DEST)
-  ], done)
-})
-
+/*
+* Nodemon now compiles TS files too!
+*/
 gulp.task('dev:nodemon', () => {
   nodemon({
     script: './dist/server.js',
     env: {
       NODE_ENV: 'dev'
     },
-    tasks: ['build:utils']
+    tasks: ['ts-batcher']
   })
 })
