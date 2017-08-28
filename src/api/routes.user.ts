@@ -58,6 +58,7 @@ export class UserRouting {
   }
 
   public ctrl_all: my_express.RequestHandler = (req, res, next) => {
+    // ! some middleware
     next();
   };
 }
