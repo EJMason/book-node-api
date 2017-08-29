@@ -13,7 +13,10 @@ class App {
   constructor() {
     // initiate server instance
     this.app = express();
-    // execute middleware
+    /**
+     * Middleware and routing are initialized in the
+     * constrocuter to ensure the order of async execution
+     */
     this.middleware();
     this.routing();
   }

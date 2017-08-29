@@ -10,7 +10,7 @@
     "start": "node ./dist/server.js",
     "build": "gulp build-ts",
     "seed": "node ./dist/db/seed",
-    "dev": "gulp nodemon",
+    "dev": "gulp nodemon:core",
     "test": "jest",
     "test-ci": "jest --coverage",
     "ts-watch": "gulp watch-ts",

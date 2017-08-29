@@ -14,7 +14,6 @@ const runSequence = require('run-sequence')
 /*
 - del(['./dist'])  ->  Deletes the dist folder
 - del(['./dist/**'])  ->  Deletes everything inside the dist folder
-- './dist/**/*
 */
 
 // './file/path/**' should only grab children
@@ -47,20 +46,17 @@ gulp.task('watch-ts', () => {
 })
 
 gulp.task('buildSequence', (done) => {
-  runSequence('clean:modules', 'build-ts', 'move:logger', done)
+  runSequence('clean:modules', 'build-ts', done)
 })
 
 gulp.task('nodemon:core', () => {
   nodemon({
     script: './dist/server.js',
-    watch: 'src/**/*.ts',
+    watch: './src/**',
     tasks: ['build-ts']
   })
 })
 
-gulp.task('nodemon', (done) => {
-  runSequence('buildSequence', 'nodemon:core', done)
-})
 
 // ------------ utils ---------------- //
 gulp.task('ts-batcher', () => batch((events) => gulp.start('build-ts')))

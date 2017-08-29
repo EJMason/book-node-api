@@ -4,7 +4,7 @@ import * as pgPromise from 'pg-promise';
 import config from '../util/config';
 
 /**
- * Terrible type definitions for pg-promise
+ * Subpar type definitions for pg-promise
  * not enough time to implement own interfaces
  * so there may be a few anys in the db code
  */
