@@ -12,6 +12,7 @@
     "seed": "node ./dist/db/seed",
     "dev": "gulp nodemon:core",
     "test": "jest",
+    "test:api": "gulp watch:testAPI",
     "test-ci": "jest --coverage",
     "ts-watch": "gulp watch-ts",
     "precommit": "lint-staged"
@@ -49,6 +50,7 @@
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "express": "^4.15.4",
+    "gulp-shell": "^0.6.3",
     "inquirer": "^3.2.2",
     "morgan": "^1.8.2",
     "pg-promise": "^6.5.1",

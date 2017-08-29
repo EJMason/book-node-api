@@ -11,25 +11,21 @@ export class UserRouting {
 
     // * [GET | PUT | DELETE] /api/v1/users/:user_id/books
     this.userLibraryRoutes();
-
     // * [PUT | DELETE] /api/v1/users/:user_id/books/read
     this.toggleBookReadStatus();
   }
+
   public userLibraryRoutes() {
-    // ! ________/api/v1/user/:user_id/books____________ //
     this.router
       .route('/:user_id/books')
       .all(this.ctrl_all)
-      /** GET - // ! /user/:user_id/books
-       * Users will be able to query their library at this endpoint
-       */
+      // * Users will be able to query their library at this endpoint
       .get((req, res) => {
         // TODO: Implement GET here
+        res.status(200).send('1234');
       })
-      /**
-       * PUT - // ! /user/:user_id/books
-       * remove books from a users library
-       */
+      // * PUT - // ! /user/:user_id/books
+      // * remove books from a users library
       // ? req.params: { user_id: <val in url above>}
       // ? req.body: { title, name } | []<bookObjs>
       .put((req, res) => {
@@ -49,8 +45,6 @@ export class UserRouting {
   }
 
   public toggleBookReadStatus() {
-    // ! ________/api/v1/users/:user_id/books/read____________ ! //
-
     this.router
       .route('/:user_id/books/read')
       .all(this.ctrl_all)
@@ -72,13 +66,12 @@ export class UserRouting {
       });
   }
 
+  // * POST - /user
   public addNewUserAccount() {
-    this.router.route('/').all(this.ctrl_all)// * POST - /user
-    // ! remove books from a users library
-    // ? req.body: { username }
+    this.router.route('/').all(this.ctrl_all)// ? req.body: { username }
     .post((req, res) => {
+      res.status(200).send('123');
       // ! add new user account
-      // TODO: model add account
     });
   }
 

@@ -1,5 +1,5 @@
 {
-  "typescript.referencesCodeLens.enabled": true,
+  "typescript.referencesCodeLens.enabled": false,
   "tslint.enable": true,
   "typescript.implementationsCodeLens.enabled": true
 }

@@ -317,7 +317,7 @@ async@^1.4.0:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
-async@^2.1.4:
+async@^2.1.4, async@^2.1.5:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/async/-/async-2.5.0.tgz#843190fd6b7357a0b9e1c956edddd5ec8462b54d"
   dependencies:
@@ -1806,6 +1806,15 @@ gulp-nodemon@^2.2.1:
     event-stream "^3.2.1"
     gulp "^3.9.1"
     nodemon "^1.10.2"
+
+gulp-shell@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/gulp-shell/-/gulp-shell-0.6.3.tgz#2eaa6edfffa8bdff7a8f0b9f9852876f33331c6b"
+  dependencies:
+    async "^2.1.5"
+    gulp-util "^3.0.8"
+    lodash "^4.17.4"
+    through2 "^2.0.3"
 
 gulp-sourcemaps@1.6.0:
   version "1.6.0"

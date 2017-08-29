@@ -4,6 +4,7 @@ const batch = require('gulp-batch')
 const gutil = require('gulp-util')
 const ts = require('gulp-typescript')
 const nodemon = require('gulp-nodemon')
+const shell = require('gulp-shell')
 
 const pump = require('pump')
 const del = require('del')
@@ -40,7 +41,7 @@ gulp.task('build-ts', () => {
 
 gulp.task('watch-ts', () => {
   watch(
-    'src/**/*.ts',
+    './src/**/*',
     batch((events) => gulp.start('build-ts'))
   )
 })
@@ -56,6 +57,15 @@ gulp.task('nodemon:core', () => {
     tasks: ['build-ts']
   })
 })
+
+gulp.task('watch:testAPI', () => {
+  watch('**/*.ts', batch(function (events, done) {
+    gulp.start('test', done);
+  }));
+})
+
+gulp.task('test', ['build-ts'], shell.task('yarn run test'))
+
 
 
 // ------------ utils ---------------- //
