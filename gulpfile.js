@@ -64,8 +64,11 @@ gulp.task('watch:testAPI', () => {
   }));
 })
 
-gulp.task('test', ['build-ts'], shell.task('yarn run test'))
+gulp.task('test', ['visual', 'build-ts'], shell.task('yarn run test'))
 
+gulp.task('visual', () => {
+  gutil.log(gutil.colors.red('\n\n\n______________ START TESTS____________\n'))
+})
 
 
 // ------------ utils ---------------- //

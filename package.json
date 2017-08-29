@@ -11,7 +11,7 @@
     "build": "gulp build-ts",
     "seed": "node ./dist/db/seed",
     "dev": "gulp nodemon:core",
-    "test": "jest",
+    "test": "jest --verbose",
     "test:api": "gulp watch:testAPI",
     "test-ci": "jest --coverage",
     "ts-watch": "gulp watch-ts",

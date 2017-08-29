@@ -6,15 +6,36 @@ export class UserRouting {
   constructor() {
     this.router = Router();
 
-    // * [PUT] /api/v1/users
-    this.addNewUserAccount();
+    this.userRouting();
 
-    // * [GET | PUT | DELETE] /api/v1/users/:user_id/books
-    this.userLibraryRoutes();
-    // * [PUT | DELETE] /api/v1/users/:user_id/books/read
-    this.toggleBookReadStatus();
+    // // * [PUT] /api/v1/users
+    // this.addNewUserAccount();
+
+    // // * [GET | PUT | DELETE] /api/v1/users/:user_id/books
+    // this.userLibraryRoutes();
+    // // * [PUT | DELETE] /api/v1/users/:user_id/books/read
+    // this.toggleBookReadStatus();
   }
 
+  public userRouting() {
+    this.router.post('/', (req, res) => {
+      // put into db here
+
+      res.status(200).send('User Created');
+    });
+  }
+
+  // ------------ MIDDLEWARE ---------------------- //
+  private validateUser(req, res, next): void {
+    // get info from DB here
+
+    if (!req.body.username || req.body.length < 5 || req.body.length > 20) {
+      res.status(400).send('404 - error');
+    }
+    next();
+  }
+
+  // ! =======================================================
   public userLibraryRoutes() {
     this.router
       .route('/:user_id/books')
@@ -68,11 +89,13 @@ export class UserRouting {
 
   // * POST - /user
   public addNewUserAccount() {
-    this.router.route('/').all(this.ctrl_all)// ? req.body: { username }
-    .post((req, res) => {
-      res.status(200).send('123');
-      // ! add new user account
-    });
+    this.router
+      .route('/')
+      .all(this.ctrl_all) // ? req.body: { username }
+      .post((req, res) => {
+        res.status(200).send('postUSERS');
+        // ! add new user account
+      });
   }
 
   public ctrl_all: my_express.RequestHandler = (req, res, next) => {

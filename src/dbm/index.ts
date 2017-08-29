@@ -6,11 +6,8 @@ const path = require('path');
  * models will share a lot of the same properties
  */
 
-abstract class DbModel {
-  protected host: string;
-  protected port: number | string;
-  protected database?: string;
-  protected user: string;
+export abstract class DbModel {
+  // "postgres://<user>:<pw>@localhost:5432/<db name>"
   // const db
 
   /**
@@ -35,7 +32,7 @@ abstract class DbModel {
       );
       console.error(queryFromFile.error);
     }
-
+    console.log('SQL File query creation success');
     return queryFromFile;
   }
 }

@@ -1,27 +1,29 @@
-import { Router } from 'express';
+import BaseRouter from './base';
+import { RouterInterface } from './base';
 
-export class BookRouting {
-  router: my_express.Router;
-
+export class BookRouter extends BaseRouter implements RouterInterface {
   constructor() {
-    this.router = Router();
-    // * POST /v1/books
-    // * Add a new book to DB
-    this.addNewBook();
+    super();
+
+    // *  ------- [POST] /api/v1/books -------  //
+    // ? Add a new book to DB
+    // ? BODY: title, author
+
+    this.endpoints();
   }
 
-  public addNewBook() {
-    this.router.route('/').all(this.ctrl_all).post((req, res) => {
-      // ! add new book
-      // TODO: model add book
+  public endpoints() {
+    this.router.post('/', this.validateBook, (req, res) => {
+      // TODO: put into db here.
+
+      res.status(200).send('User Created');
     });
   }
 
-  // * this is the middleware for the book endpoints
-  public ctrl_all: my_express.RequestHandler = (req, res, next) => {
-    next();
-  };
+  // ------------ MIDDLEWARE ---------------------- //
+  // middleware declared in base class
+
+  // ----------- HELPERS --------------- //
 }
 
-const bookRoutes = new BookRouting();
-export default bookRoutes.router;
+export default new BookRouter();

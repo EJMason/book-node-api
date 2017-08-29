@@ -4,33 +4,51 @@ dotenv.config();
 
 // ! NEED TO CONFIGURE TYPES FOR ENV VARIABLES!
 interface Options {
-  node_env: any; // all env options need configuring
-  is_prod: any;
-  port: any;
+  node_env: string; // all env options need configuring
+  is_prod: boolean;
+  port: string | number;
 
   pg: DbOptions;
 }
 
 interface DbOptions {
-  dBhost: any;
-  dBport: any;
-  database: any;
-  user: any;
-  constr: any;
+  dBhost: string;
+  dBport: string;
+  database: string;
+  user: string;
+  constr: string;
 }
 
-const defaults: Options = {
-  node_env: process.env.NODE_ENV ? process.env.NODE_ENV : 'development',
-  is_prod: process.env.NODE_ENV === 'production',
-  port: process.env.PORT ? process.env.PORT : 8000,
+const builder = (): Options => {
+  const defaults: any = {};
 
-  pg: {
-    dBhost: process.env.DBHOST,
-    dBport: process.env.DBHOST,
-    database: process.env.DBHOST,
-    user: process.env.DBHOST,
-    constr: process.env.DBURI
+  defaults.node_env = '' + process.env.NODE_ENV;
+  defaults.is_prod = process.env.NODE_ENV === 'production';
+
+  if (!process.env.PORT) defaults.port = 8000;
+  else defaults.port = '' + process.env.PORT;
+
+  if (defaults.node_env === 'test') {
+    defaults.pg = {
+      dBhost: 'localhost',
+      dBport: 5432,
+      database: process.env.LOCALDBNAME,
+      user: process.env.LOCALUSER,
+      connectionString: 'postgres://ejm:4808@localhost:5432/ejm'
+    };
+  } else {
+    defaults.pg = {
+      dBhost: process.env.DBHOST,
+      dBport: process.env.DBPORT,
+      database: process.env.DBDATABASE,
+      user: process.env.DBUSER,
+      constr: process.env.DBURI
+    };
   }
+
+  return defaults;
 };
 
-export default defaults;
+const completed: Options = builder();
+
+export default completed;

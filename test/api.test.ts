@@ -3,39 +3,39 @@ import app from '../dist/App';
 
 const request = supertest(app);
 
-describe('GET - /', () => {
+describe('POST - /api/v1/books', () => {
   it('should return 200 OK', () => {
-    return request.get('/').expect(200);
+    return request
+      .post('/api/v1/books')
+      .set('Accept', 'application/json')
+      .send({ author: 'Manny Fanny', title: 'Cat in the Hat' })
+      .expect(200);
+  });
+
+  it('should return 400 when body is incorrect format', () => {
+    return request
+      .post('/api/v1/books')
+      .set('Accept', 'application/json')
+      .send({ author: 5, title: 'Cat in the Hat' })
+      .expect(400);
   });
 });
 
-describe('GET - /users', () => {
+describe('POST - /api/v1/users', () => {
   it('should return 200 OK', () => {
-    return request.get('/users').expect(200, '123');
-  });
-});
-
-xdescribe('POST - /api/v1/books', () => {
-  it('should return 200 OK', () => {
-    return request.get('/books').expect(200);
-  });
-});
-
-xdescribe('POST - /api/v1/users', () => {
-  it('should return 200 OK', () => {
-    return request.post('/api/v1/users').expect(200, 'postBooks');
+    return request.post('/api/v1/users').expect(200, 'User Created');
   });
 });
 
 xdescribe('PUT - /api/v1/:userid/books/read', () => {
   it('should return 200 OK', () => {
-    return request.put('/api/v1/:userid/books/read').expect(200);
+    return request.put('/api/v1/users/:userid/books/read').expect(200);
   });
 });
 
 xdescribe('DEL - /api/v1/:userid/books/read', () => {
   it('should return 200 OK', () => {
-    return request.delete('/api/v1/:userid/books/read').expect(200);
+    return request.delete('/api/v1/users/:userid/books/read').expect(200);
   });
 });
 

@@ -38,10 +38,10 @@ class App {
     });
 
     // pass router object to another folder
-    this.app.use('/', base);
+    // this.app.use('/', base);
 
-    base.use('/books', booksRouter);
-    this.app.use('/users', usersRouter);
+    this.app.use('/api/v1/books', booksRouter.router);
+    this.app.use('/api/v1/users', usersRouter);
     // this.app.use('/users', routers.users);
   }
 }
