@@ -22,3 +22,6 @@ export class BookRouting {
     next();
   };
 }
+
+const bookRoutes = new BookRouting();
+export default bookRoutes.router;

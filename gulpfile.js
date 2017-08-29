@@ -11,10 +11,27 @@ const path = require('path')
 const runSequence = require('run-sequence')
 // const sourcemaps = require('gulp-sourcemaps')
 
+/*
+- del(['./dist'])  ->  Deletes the dist folder
+- del(['./dist/**'])  ->  Deletes everything inside the dist folder
+- './dist/**/*
+*/
+
+// './file/path/**' should only grab children
+//
+const logger = (files) => {
+  gutil.log(gutil.colors.blue(`\nThe path is: ${files.join('\n')}\n`))
+}
 const tsProject = ts.createProject('tsconfig.json')
 // --------------------------------------------------------- //
-
-gulp.task('build-ts', ['clean:modules'], () => {
+// !First, clean the files
+gulp.task('delete-dist', (done) => {
+  gutil.log(gutil.colors.red('GULP:delete-dist --> Deleteing the DIST directory'))
+  del(['./dist'])
+  .then(done)
+})
+// ! rebuild the Typescript files, put them in the DIST directory
+gulp.task('build-ts', () => {
   gutil.log(gutil.colors.blue('\nCompiling TS files...\n'))
   return tsProject.src()
     .pipe(tsProject())
@@ -36,11 +53,8 @@ gulp.task('buildSequence', (done) => {
 gulp.task('nodemon:core', () => {
   nodemon({
     script: './dist/server.js',
-    watch: './src',
-    env: {
-      NODE_ENV: 'development'
-    },
-    tasks: ['buildSequence']
+    watch: 'src/**/*.ts',
+    tasks: ['build-ts']
   })
 })
 
@@ -49,9 +63,4 @@ gulp.task('nodemon', (done) => {
 })
 
 // ------------ utils ---------------- //
-gulp.task('move:logger', () => {
-  return gulp.src('dist/util/logger.js')
-    .pipe(gulp.dest('node_modules/'))
-})
 gulp.task('ts-batcher', () => batch((events) => gulp.start('build-ts')))
-gulp.task('clean:modules', () => del(['node_modules/logger.js']))

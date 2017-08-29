@@ -4,7 +4,8 @@ import * as bodyParser from 'body-parser';
 import * as logger from 'morgan';
 
 import config from './util/config';
-import routers from './api/routes';
+import booksRouter from './api/routes.books';
+import usersRouter from './api/routes.users';
 
 class App {
   public app: express.Application;
@@ -27,17 +28,18 @@ class App {
   }
 
   private routing(): void {
-    const v1 = express.Router();
+    const base = express.Router();
 
-    v1.get('/', (req, res) => {
+    base.get('/', (req, res) => {
       res.status(200).send('Hello Boi!');
     });
 
     // pass router object to another folder
-    this.app.use('/', v1);
+    this.app.use('/', base);
 
-    v1.use('/books', routers.books);
-    v1.use('/users', routers.users);
+    this.app.use('/api/v1/books', booksRouter);
+    this.app.use('/api/v1/users', usersRouter);
+    // this.app.use('/users', routers.users);
   }
 }
 

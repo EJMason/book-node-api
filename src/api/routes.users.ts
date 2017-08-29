@@ -62,3 +62,6 @@ export class UserRouting {
     next();
   };
 }
+
+const userRoutes = new UserRouting();
+export default userRoutes.router;
