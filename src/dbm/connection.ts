@@ -1,4 +1,4 @@
-// * This file is to ensure there is only 1 connection
+// * This file is to ensure there is only 1 connection,
 import * as Promise from 'bluebird';
 import * as pgPromise from 'pg-promise';
 import config from '../util/config';

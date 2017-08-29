@@ -31,7 +31,7 @@ abstract class DbModel {
     if (queryFromFile.error) {
       console.error(
         'ERROR: This occured because of a query\
-                          syntax error. Fix the file and try again.'
+        syntax error. Fix the file and try again.'
       );
       console.error(queryFromFile.error);
     }
