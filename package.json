@@ -54,6 +54,7 @@
     "helmet": "^3.8.1",
     "inquirer": "^3.2.2",
     "morgan": "^1.8.2",
+    "pg-monitor": "^0.8.2",
     "pg-promise": "^6.5.1",
     "sequelize": "^4.7.5",
     "winston": "^2.3.1"

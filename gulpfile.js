@@ -52,7 +52,7 @@ gulp.task('buildSequence', (done) => {
 gulp.task('nodemon:core', () => {
   nodemon({
     script: './dist/server.js',
-    watch: '**/*.ts',
+    watch: '**/*',
     tasks: ['build-ts']
   })
 })

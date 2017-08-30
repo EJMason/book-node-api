@@ -6,6 +6,7 @@ export interface RouterInterface {
 }
 abstract class Base {
   router: express.Router;
+  db: any;
 
   constructor() {
     this.router = Router();

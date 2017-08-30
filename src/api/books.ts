@@ -1,7 +1,9 @@
 // import { Request, Response } from 'express';
 import BaseRouter from './base';
 import { RouterInterface } from './base';
-import db from '../dbm/dbQueries';
+
+const author = { name: 'Billy oob Joe' };
+import db = require('../db');
 
 export class BookRouter extends BaseRouter implements RouterInterface {
   constructor() {
@@ -19,13 +21,18 @@ export class BookRouter extends BaseRouter implements RouterInterface {
      * Req.body: { title: string, author: string}
      */
     this.router.post('/', (req, res) => {
-      db
-        .addBook(req.body)
-        .then(book => {
-          res.status(200).send(book);
-        })
-        .catch(err => res.status(400).send(err));
+      db.queries.addAuthor(author).then(data => {
+        console.log('DATA', data);
+        res.status(200).send(data);
+      });
+      // res.status(400).send(error);
     });
+
+    //     .then(book => {
+    //       console.log('ARE WE HERE!@!#FDKJSLHGKDHG');
+    //       res.status(200).send(book);
+    //     })
+    //     .catch(err => res.status(400).send(err));
   }
 
   // ------------ MIDDLEWARE ---------------------- //
