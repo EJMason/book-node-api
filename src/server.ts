@@ -1,6 +1,7 @@
 import * as http from 'http';
 import app from './App';
 import config from './util/config';
+import winston from 'winston';
 
 const server = http.createServer(app);
 const port = ensurePort(config.port);
@@ -13,7 +14,7 @@ server.on('error', onError);
 server.on('listening', () => {
   const addr = server.address();
   const uri = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
-  console.log(`Server listening on ${uri}`);
+  winston.info(`Server listening on ${uri}`);
 });
 
 /*
@@ -36,11 +37,11 @@ function onError(error: NodeJS.ErrnoException): void {
   const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   if (error.code == 'EACCES') {
-    console.error(`${bind} requires elevated privileges`);
+    winston.error(`${bind} requires elevated privileges`);
     process.exit(1);
   }
   if (error.code == 'EADDRINUSE') {
-    console.error(`${bind} is already in use`);
+    winston.error(`${bind} is already in use`);
     process.exit(1);
   }
 

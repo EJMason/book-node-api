@@ -23,6 +23,22 @@ class DbUtil extends DbModel {
   public truncateAll = () => this.db.none(this.sql.truncate);
   public createAll = () => this.db.none(this.sql.tables);
   public dropAll = () => this.db.none(this.sql.drop);
+
+  // public seed() {
+  //   const q = this.buildSQL(`${this.qPath}/author_add.sql`);
+  //   this.db.tx(t => {
+  //     var queries = users.map(u => {
+  //         return t.none(, u);
+  //     });
+  //     return t.batch(queries);
+  // })
+  // .then(data => {
+  //     // OK
+  // })
+  // .catch(error => {
+  //     // Error
+  // });
+  // }
 }
 
 const dbUtilities = new DbUtil();

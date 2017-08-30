@@ -6,7 +6,7 @@ CREATE TABLE "users" (
 
 CREATE TABLE "books" (
 	"id" serial NOT NULL,
-	"title" serial NOT NULL,
+	"title" TEXT NOT NULL,
 	"authors_id" int8 NOT NULL,
 	CONSTRAINT books_pk PRIMARY KEY ("id")
 );

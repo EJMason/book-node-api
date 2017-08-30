@@ -1,10 +1,11 @@
 import { Router } from 'express';
+import * as express from 'express';
 
 export interface RouterInterface {
   endpoints: () => void;
 }
 abstract class Base {
-  router: my_express.Router;
+  router: express.Router;
 
   constructor() {
     this.router = Router();

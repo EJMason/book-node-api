@@ -1,4 +1,5 @@
 // import { QueryFile, TQueryFileOptions } from 'pg-promise';
+import * as winston from 'winston';
 import { QueryFile } from 'pg-promise';
 import path from 'path';
 
@@ -60,11 +61,12 @@ abstract class DbModel {
     const qf: QueryFile = new QueryFile(file, opts);
 
     if (qf.error) {
-      console.error(
+      winston.error(
         `ERROR: This occured because of a query
         syntax error. Fix the file and try again.`
       );
-      console.error(qf.error);
+      winston.error(`${qf.error}`);
+      winston.info('hello');
     }
     return qf;
   }

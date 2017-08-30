@@ -1,3 +1,4 @@
-INSERT INTO users(user_name)
-VALUES($1)
+INSERT
+  INTO users(userName)
+  VALUES ($1)
 RETURNING *

@@ -1,7 +1,8 @@
 import { Router } from 'express';
+import * as express from 'express';
 
 export class UserRouting {
-  router: my_express.Router;
+  router: express.Router;
 
   constructor() {
     this.router = Router();
@@ -98,7 +99,7 @@ export class UserRouting {
       });
   }
 
-  public ctrl_all: my_express.RequestHandler = (req, res, next) => {
+  public ctrl_all: express.RequestHandler = (req, res, next) => {
     // ! some middleware, if needed
     next();
   };

@@ -2,6 +2,7 @@
 import * as Promise from 'bluebird';
 import pgPromise from 'pg-promise';
 import config from '../util/config';
+import * as winston from 'winston';
 
 /**
  * Subpar type definitions for pg-promise
@@ -16,11 +17,11 @@ const initOptions: any = {
 
   disconnect: (client, dc) => {
     const cp = client.connectionParameters;
-    // console.log('Disconnecting from database:', cp.database);
+    winston.verbose('Disconnecting from database:', cp.database);
   },
 
   query: e => {
-    // console.log('QUERY:', e.query);
+    winston.verbose('------QUERY----\n', e.query);
   },
 
   receive: (data, result, e) => {
@@ -28,20 +29,17 @@ const initOptions: any = {
   },
 
   error: (err, e) => {
+    winston.error('ERROR:DATABASE');
+    winston.debug(e);
     if (e.cn) {
-      // this is a connection-related error
-      // cn = safe connection details passed into the library:
-      //      if password is present, it is masked by #
+      winston.error('Connection Error');
+      winston.error(e.cn);
     }
     if (e.query) {
-      // query string is available
-      if (e.params) {
-        // query parameters are available
-      }
+      winston.error('Query Error');
+      winston.error(e.error);
     }
-    if (e.ctx) {
-      // occurred inside a task or transaction
-    }
+    if (e.ctx) winston.error('Transaction Error: '.e.ctx);
   }
 };
 
@@ -61,6 +59,7 @@ function camelizeColumns(data) {
   }
 }
 
+// TODO: Change this to dynamic
 const db = pgInstance('postgres://ejm:4808@localhost:5432/headspace');
 export const pgp = pgInstance;
 export default db;
