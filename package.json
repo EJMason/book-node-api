@@ -7,7 +7,7 @@
   "author": "EJMason <eliotjunior@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node ./dist/server.js",
+    "start": "nodemon ./dist/server.js",
     "build": "gulp build-ts",
     "seed": "node ./dist/db/seed",
     "dev": "gulp nodemon:core",

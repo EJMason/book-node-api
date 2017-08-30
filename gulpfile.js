@@ -45,6 +45,8 @@ gulp.task('watch-ts', () => {
   )
 })
 
+gulp.task('go', ['visual', 'build-ts'], shell.task('yarn run test'))
+
 gulp.task('buildSequence', (done) => {
   runSequence('clean:modules', 'build-ts', done)
 })

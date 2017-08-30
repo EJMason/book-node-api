@@ -14,10 +14,7 @@ export class QRepo {
   private pgp: IMain;
 
   addAuthor(author: Author) {
-    return this.db.one(
-      'INSERT INTO authors (name) SELECT $1 WHERE NOT EXISTS (SELECT * FROM authors WHERE name = $1); SELECT * FROM authors WHERE name = $1;',
-      author.name
-    );
+    return this.db.one(sql.queries.addAuthor, author.name);
   }
   findById(id: number) {
     return this.db.oneOrNone('SELECT * FROM users WHERE id = $1', +id);
