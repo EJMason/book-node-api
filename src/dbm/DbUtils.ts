@@ -22,6 +22,7 @@ class DbUtil extends DbModel {
 
   public truncateAll = () => this.db.none(this.sql.truncate);
   public createAll = () => this.db.none(this.sql.tables);
+  public dropAll = () => this.db.none(this.sql.drop);
 }
 
 const dbUtilities = new DbUtil();

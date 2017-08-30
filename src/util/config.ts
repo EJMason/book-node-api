@@ -35,7 +35,7 @@ const builder = (): Options => {
       dBport: 5432,
       database: process.env.LOCALDBNAME,
       user: process.env.LOCALUSER,
-      connectionString: 'postgres://ejm:4808@localhost:5432/ejm'
+      connectionString: 'postgres://ejm:4808@localhost:5433/headspace'
     };
   } else {
     defaults.pg = {
@@ -47,7 +47,7 @@ const builder = (): Options => {
     };
   }
 
-  defaults.pg.tableNames = ['users', 'books', 'authors', 'books_users'];
+  defaults.pg.tableNames = ['users', 'books', 'authors', 'users_books'];
 
   return defaults;
 };

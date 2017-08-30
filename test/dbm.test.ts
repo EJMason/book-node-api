@@ -1,16 +1,19 @@
 import db_util from '../src/dbm/DbUtils';
+import db from '../src/dbm/DbQueries';
+import { pgp } from '../src/dbm/connection';
 
-// beforeEach((done) => {
-//   return db_util
-//     .destroyAll();
-// });
+describe('Adding Users to the database', () => {
+  it('Should insert valid user', async () => {
+    await db_util.truncateAll();
 
-xdescribe('Add users to database', () => {
-  it('should work', () => {
-    db_util.truncateAll().then(() => {
-      expect(1).toBeGreaterThan(0);
-    });
+    expect.assertions(3);
+    const user = await db.addUser('newGuy');
+    expect(user).toBeDefined();
+    expect(user).toHaveProperty('userName', 'newGuy');
+    expect(user).toHaveProperty('id');
   });
 
-  it('sql: should add user to the database', () => {});
+  it('Should not insert when username is duplicate', async () => {
+    return await expect(db.addUser('newGuy')).resolves.toBeUndefined();
+  });
 });

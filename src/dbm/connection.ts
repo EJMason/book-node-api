@@ -16,11 +16,11 @@ const initOptions: any = {
 
   disconnect: (client, dc) => {
     const cp = client.connectionParameters;
-    console.log('Disconnecting from database:', cp.database);
+    // console.log('Disconnecting from database:', cp.database);
   },
 
   query: e => {
-    console.log('QUERY:', e.query);
+    // console.log('QUERY:', e.query);
   },
 
   receive: (data, result, e) => {
@@ -45,12 +45,12 @@ const initOptions: any = {
   }
 };
 
-const pgp: any = pgPromise(initOptions);
+const pgInstance: any = pgPromise(initOptions);
 
 function camelizeColumns(data) {
   const tmp = data[0];
   for (let prop in tmp) {
-    const camel = pgp.utils.camelize(prop);
+    const camel = pgInstance.utils.camelize(prop);
     if (!(camel in tmp)) {
       for (let i = 0; i < data.length; i++) {
         const d = data[i];
@@ -61,6 +61,6 @@ function camelizeColumns(data) {
   }
 }
 
-const db = pgp(config.pg.connectionString);
-
+const db = pgInstance('postgres://ejm:4808@localhost:5432/headspace');
+export const pgp = pgInstance;
 export default db;
