@@ -1,0 +1,1 @@
+TRUNCATE users, books, authors, users_books CASCADE;

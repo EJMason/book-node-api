@@ -1,6 +1,6 @@
 CREATE TABLE "users" (
 	"id" serial NOT NULL,
-	"userName" TEXT NOT NULL UNIQUE,
+	"user_name" TEXT NOT NULL UNIQUE,
 	CONSTRAINT users_pk PRIMARY KEY ("id")
 );
 
