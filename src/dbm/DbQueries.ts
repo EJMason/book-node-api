@@ -1,11 +1,7 @@
-import { User, Book, Author } from 'global';
+import { User, Book, Author, LibFormat } from 'global';
 import DbModel from './DbModel';
+import winston from 'winston';
 // import { pgp } from './connection';
-
-// interface User {
-//   userName: string;
-//   id?: number;
-// }
 
 class DbQueries extends DbModel {
   public sql: any;
@@ -14,16 +10,18 @@ class DbQueries extends DbModel {
 
   constructor() {
     super();
-    this.sql = this.createSQL(['user_add', 'book_add', 'author_add']);
+    this.sql = this.createSQL([
+      'user_add',
+      'book_add',
+      'author_add',
+      'library_add',
+      'library_update'
+    ]);
   }
-  // adds user with validation
+
   // TODO: Handle Errors
 
-  // public addUser(username: string) {
-  //   return this.db.oneOrNone(this.sql.user_add, username);
-  // }
-
-  public addUser(user: User) {
+  public addUser(user: User): Promise<User> {
     return this.db.task('add-user-no-duplicates', async t => {
       const userExists = await this.findByUsername(user, t);
       // return if user is valid
@@ -34,15 +32,51 @@ class DbQueries extends DbModel {
     });
   }
 
-  public addBook(book: Book): any {
-    return this.db.task('abb-book', async t => {
+  public addBook(book: Book): Promise<Book> | null {
+    return this.db.task('add-book', async t => {
       const author = await this.addAuthor(book, t);
       return await t.oneOrNone(this.sql.book_add, [book.title, `${author.id}`]);
     });
   }
 
+  public toggleRead(library: LibFormat, isRead: boolean): Promise<LibFormat> {
+    return this.db.oneOrNone(this.sql.library_update, [
+      isRead,
+      library.users_id,
+      library.books_id
+    ]);
+  }
+
+  // this looks like it works to me
+  // public addToLibrary(data: LibFormat): any {
+  //   return this.db.task('add-book-to-user-library', async t => {
+  //     const exists = await this.findBookInLibrary(data);
+  //     winston.info('DOES IT EXIST: ' + exists + '<--');
+  //     if (!exists)
+  //       return await t.one(this.sql.library_add, [
+  //         `${data.books_id}`,
+  //         `${data.users_id}`
+  //       ]);
+  //     return undefined;
+  //   });
+  // }
+  public addToLibrary(data: LibFormat): any {
+    return this.db.oneOrNone(this.sql.library_add, [
+      `${data.books_id}`,
+      `${data.users_id}`
+    ]);
+  }
+
+  // ------------------------------------------------------- //
   public addAuthor(book: Book, t = this.db) {
     return t.oneOrNone(this.sql.author_add, book.author.name);
+  }
+
+  public findBookInLibrary(data: LibFormat, t = this.db) {
+    return t.oneOrNone(
+      'SELECT * FROM users_books WHERE users_id=$1 AND books_id=$2',
+      [data.users_id, data.books_id]
+    );
   }
 
   public findAuthorByName(book: Book, t = this.db) {
@@ -50,7 +84,10 @@ class DbQueries extends DbModel {
   }
 
   public findAuthorById(author: Author, t = this.db) {
-    return t.oneOrNone('SELECT * FROM authors WHERE id=$1', `${author.id}`);
+    return t.oneOrNone(
+      'SELECT * FROM authors WHERE id=$1',
+      `${author.author_id}`
+    );
   }
 
   public findUserById(user: User, t) {

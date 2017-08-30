@@ -37,4 +37,3 @@ ALTER TABLE "users_books" ADD
 CONSTRAINT "users_books_fk1"
 FOREIGN KEY ("users_id")
 REFERENCES "users"("id");
-

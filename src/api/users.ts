@@ -30,7 +30,7 @@ export class UserRouting {
   // private validateUser(req, res, next): void {
   //   // get info from DB here
 
-  //   if (!req.body.username || req.body.length < 5 || req.body.length > 20) {
+  //   if (!req.body.userName || req.body.length < 5 || req.body.length > 20) {
   //     res.status(400).send('404 - error');
   //   }
   //   next();

@@ -1,21 +1,26 @@
 declare namespace Global {
 
 }
-
+export interface LibFormat {
+  users_id: string | number;
+  books_id: string | number;
+  userName?: string;
+  read?: boolean;
+}
 export interface User {
   userName: string;
   id?: number;
 }
 
 interface Book {
-  id?: number;
+  book_id?: number;
   title: string;
   author_id?: number;
   author: Author;
 }
 interface Author {
   name: string;
-  id?: number;
+  author_id?: number;
 }
 
 //export as namespace Global;

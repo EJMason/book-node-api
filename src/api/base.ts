@@ -12,7 +12,6 @@ abstract class Base {
   }
 
   // ------------ MIDDLEWARE ---------------------- //
-
   public getAuthorInfo(req, res, next): void {
     /*
     Query the db for the author by name, if he already exists

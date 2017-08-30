@@ -12,7 +12,6 @@ import * as winston from 'winston';
 const initOptions: any = {
   promiseLib: Promise,
 
-  // cosmetic option for output
   capSQL: true,
 
   disconnect: (client, dc) => {
@@ -22,10 +21,6 @@ const initOptions: any = {
 
   query: e => {
     winston.verbose('------QUERY----\n', e.query);
-  },
-
-  receive: (data, result, e) => {
-    camelizeColumns(data);
   },
 
   error: (err, e) => {
@@ -39,25 +34,11 @@ const initOptions: any = {
       winston.error('Query Error');
       winston.error(e.error);
     }
-    if (e.ctx) winston.error('Transaction Error: '.e.ctx);
+    if (e.ctx) winston.error('Transaction Error: ', e.ctx);
   }
 };
 
 const pgInstance: any = pgPromise(initOptions);
-
-function camelizeColumns(data) {
-  const tmp = data[0];
-  for (let prop in tmp) {
-    const camel = pgInstance.utils.camelize(prop);
-    if (!(camel in tmp)) {
-      for (let i = 0; i < data.length; i++) {
-        const d = data[i];
-        d[camel] = d[prop];
-        delete d[prop];
-      }
-    }
-  }
-}
 
 // TODO: Change this to dynamic
 const db = pgInstance('postgres://ejm:4808@localhost:5432/headspace');

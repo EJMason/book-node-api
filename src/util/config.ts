@@ -4,7 +4,7 @@ dotenv.config();
 
 // ! NEED TO CONFIGURE TYPES FOR ENV VARIABLES!
 interface Options {
-  node_env: string; // all env options need configuring
+  node_env: string;
   is_prod: boolean;
   port: string | number;
 

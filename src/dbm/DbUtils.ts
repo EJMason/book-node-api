@@ -10,7 +10,7 @@ class DbUtil extends DbModel {
     super();
     this.tableType = 'Util';
 
-    this.sql = this.createUtilSQL(['drop', 'tables', 'truncate']);
+    this.sql = this.createUtilSQL(['drop', 'tables', 'truncate', 'seed_all']);
   }
 
   private createUtilSQL(files: Array<string>): void {
@@ -23,6 +23,8 @@ class DbUtil extends DbModel {
   public truncateAll = () => this.db.none(this.sql.truncate);
   public createAll = () => this.db.none(this.sql.tables);
   public dropAll = () => this.db.none(this.sql.drop);
+
+  public seedAll = () => this.db.none(this.sql.seed_all);
 
   // public seed() {
   //   const q = this.buildSQL(`${this.qPath}/author_add.sql`);

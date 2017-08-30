@@ -1,4 +1,4 @@
 INSERT
-  INTO users(userName)
+  INTO users(user_name)
   VALUES ($1)
 RETURNING *
