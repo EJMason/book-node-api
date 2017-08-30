@@ -1,7 +1,7 @@
 // import { QueryFile, TQueryFileOptions } from 'pg-promise';
 import * as winston from 'winston';
 import { QueryFile } from 'pg-promise';
-import path from 'path';
+import * as path from 'path';
 
 import db from './connection';
 import config from '../util/config';

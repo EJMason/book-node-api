@@ -26,10 +26,10 @@ abstract class Base {
     const author = req.body.author;
 
     if (!title || !(typeof title === 'string')) {
-      res.status(400).send('404 - error, invalid title');
+      res.status(400).send('400 - error, invalid title field');
     }
     if (!author || !(typeof author === 'string')) {
-      res.status(400).send('404 - error, invalid author');
+      res.status(400).send('400 - error, invalid author field');
     }
     next();
   }

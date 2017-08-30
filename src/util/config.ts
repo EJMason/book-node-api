@@ -29,7 +29,7 @@ const builder = (): Options => {
   if (!process.env.PORT) defaults.port = 8000;
   else defaults.port = '' + process.env.PORT;
 
-  if (defaults.node_env === 'test') {
+  if (defaults.node_env !== 'prod') {
     defaults.pg = {
       dBhost: 'localhost',
       dBport: 5432,

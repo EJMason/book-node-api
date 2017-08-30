@@ -2,10 +2,12 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as logger from 'morgan';
+// import * as helmet from 'helmet';
 
 import config from './util/config';
 import booksRouter from './api/books';
 import usersRouter from './api/users';
+import errorHandler from './errors';
 
 class App {
   public app: express.Application;
@@ -15,7 +17,7 @@ class App {
     this.app = express();
     /**
      * Middleware and routing are initialized in the
-     * constrocuter to ensure the order of async execution
+     * constructor to ensure the order of async execution
      */
     this.middleware();
     this.routing();
@@ -24,6 +26,9 @@ class App {
   private middleware(): void {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
+    // this.app.use(helmet());
+
+    // this.app.use(errorHandler.clientErrorHandler);
 
     if (!config.is_prod) {
       this.app.use(logger('dev'));
@@ -42,7 +47,6 @@ class App {
 
     this.app.use('/api/v1/books', booksRouter.router);
     this.app.use('/api/v1/users', usersRouter);
-    // this.app.use('/users', routers.users);
   }
 }
 

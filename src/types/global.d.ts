@@ -1,6 +1,3 @@
-declare namespace Global {
-
-}
 export interface LibFormat {
   users_id: string | number;
   books_id: string | number;

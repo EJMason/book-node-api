@@ -18,7 +18,6 @@ const runSequence = require('run-sequence')
 */
 
 // './file/path/**' should only grab children
-//
 const logger = (files) => {
   gutil.log(gutil.colors.blue(`\nThe path is: ${files.join('\n')}\n`))
 }
@@ -41,7 +40,7 @@ gulp.task('build-ts', () => {
 
 gulp.task('watch-ts', () => {
   watch(
-    './src/**/*',
+    '**/*.ts',
     batch((events) => gulp.start('build-ts'))
   )
 })
@@ -53,7 +52,7 @@ gulp.task('buildSequence', (done) => {
 gulp.task('nodemon:core', () => {
   nodemon({
     script: './dist/server.js',
-    watch: './src/**',
+    watch: '**/*.ts',
     tasks: ['build-ts']
   })
 })

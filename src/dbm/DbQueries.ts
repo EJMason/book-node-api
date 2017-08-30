@@ -1,6 +1,6 @@
 import { User, Book, Author, LibFormat } from 'global';
 import DbModel from './DbModel';
-import winston from 'winston';
+import * as winston from 'winston';
 // import { pgp } from './connection';
 
 class DbQueries extends DbModel {
@@ -22,6 +22,7 @@ class DbQueries extends DbModel {
   // TODO: Handle Errors
 
   public addUser(user: User): Promise<User> {
+    winston.verbose('Init: Add User Query');
     return this.db.task('add-user-no-duplicates', async t => {
       const userExists = await this.findByUsername(user, t);
       // return if user is valid
@@ -32,10 +33,10 @@ class DbQueries extends DbModel {
     });
   }
 
-  public addBook(book: Book): Promise<Book> | null {
+  public addBook(book: Book): Promise<Book> {
     return this.db.task('add-book', async t => {
       const author = await this.addAuthor(book, t);
-      return await t.oneOrNone(this.sql.book_add, [book.title, `${author.id}`]);
+      return await t.one(this.sql.book_add, [book.title, `${author.id}`]);
     });
   }
 

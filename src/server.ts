@@ -1,7 +1,7 @@
 import * as http from 'http';
 import app from './App';
 import config from './util/config';
-import winston from 'winston';
+import * as winston from 'winston';
 
 const server = http.createServer(app);
 const port = ensurePort(config.port);
