@@ -3,7 +3,7 @@ import { Router } from 'express';
 export interface RouterInterface {
   endpoints: () => void;
 }
-export abstract class Base {
+abstract class Base {
   router: my_express.Router;
 
   constructor() {

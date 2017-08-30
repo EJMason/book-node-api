@@ -1,20 +1,16 @@
-import db from '../src/dbm/connection';
+import db_util from '../src/dbm/DbUtils';
 
-const qu = `CREATE TABLE "authors" (
-              "id" serial NOT NULL,
-              "name" TEXT NOT NULL UNIQUE,
-              CONSTRAINT authors_pk PRIMARY KEY ("id")
-            );`;
+// beforeEach((done) => {
+//   return db_util
+//     .destroyAll();
+// });
 
-xtest('adds 1 + 2 to equal 3', cb => {
-  db
-    .any(qu)
-    .then(function(data) {
-      console.log(data);
-      expect(10).toEqual(10);
-      cb();
-    })
-    .catch(function(error) {
-      // error;
+xdescribe('Add users to database', () => {
+  it('should work', () => {
+    db_util.truncateAll().then(() => {
+      expect(1).toBeGreaterThan(0);
     });
+  });
+
+  it('sql: should add user to the database', () => {});
 });

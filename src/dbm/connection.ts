@@ -1,7 +1,7 @@
 // * This file is to ensure there is only 1 connection,
 import * as Promise from 'bluebird';
 import pgPromise from 'pg-promise';
-// import config from '../util/config';
+import config from '../util/config';
 
 /**
  * Subpar type definitions for pg-promise
@@ -61,5 +61,6 @@ function camelizeColumns(data) {
   }
 }
 
-const db = pgp(connectionString);
+const db = pgp(config.pg.connectionString);
+
 export default db;

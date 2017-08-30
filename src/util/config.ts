@@ -16,7 +16,8 @@ interface DbOptions {
   dBport: string;
   database: string;
   user: string;
-  constr: string;
+  connectionString: string;
+  tableNames: Array<string>;
 }
 
 const builder = (): Options => {
@@ -42,9 +43,11 @@ const builder = (): Options => {
       dBport: process.env.DBPORT,
       database: process.env.DBDATABASE,
       user: process.env.DBUSER,
-      constr: process.env.DBURI
+      connectionString: process.env.DBURI
     };
   }
+
+  defaults.pg.tableNames = ['users', 'books', 'authors', 'books_users'];
 
   return defaults;
 };
