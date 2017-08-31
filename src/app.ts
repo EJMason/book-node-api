@@ -7,7 +7,7 @@ import * as logger from 'morgan';
 import config from './util/config';
 import booksRouter from './api/books';
 import usersRouter from './api/users';
-// import errorHandler from './errors';
+import errorHandler from './errors';
 
 class App {
   public app: express.Application;
@@ -28,7 +28,7 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: false }));
     // this.app.use(helmet());
 
-    // this.app.use(errorHandler.clientErrorHandler);
+    this.app.use(errorHandler.clientErrorHandler);
 
     if (!config.is_prod) {
       this.app.use(logger('dev'));

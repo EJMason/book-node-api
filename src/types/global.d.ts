@@ -10,14 +10,15 @@ export interface User {
 }
 
 interface Book {
-  book_id?: number;
+  books_id?: number;
   title: string;
-  author_id?: number;
+  authors_id?: number;
   author: Author;
+  id?: any;
 }
 interface Author {
   name: string;
-  author_id?: number;
+  authors_id?: number;
 }
 
 //export as namespace Global;

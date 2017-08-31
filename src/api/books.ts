@@ -7,25 +7,20 @@ import db = require('../db');
 export class BookRouter extends BaseRouter implements RouterInterface {
   constructor() {
     super();
-    // *  ------- [POST] /api/v1/books -------  //
-    // ? Add a new book to DB
-    // ? BODY: title, author
     this.endpoints();
   }
 
   public endpoints() {
-    /**
+    /** [POST] /api/v1/books
      * Req.body: { title: string, author: string}
      */
     this.router.post('/', (req, res) => {
-      db.queries.addAuthor(req.body).then(data => {
-        res.status(200).send(data);
-      });
+      console.log('HEEEROOOO: ', req.body);
+      db.queries.createBook(req.body).then(item => res.status(200).send(item));
     });
   }
 
   // ------------ MIDDLEWARE ---------------------- //
-  // middleware declared in base class
 
   // ----------- HELPERS --------------- //
 }

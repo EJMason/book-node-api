@@ -22,7 +22,8 @@ class Errors {
       winston.verbose('Internal Server Error ', req.xhr);
       res.status(500).send({ error: 'Something failed!' });
     } else {
-      next(err);
+      res.status(400).send({ error: 'Oops...' });
+      // next(err);
     }
   }
 }
