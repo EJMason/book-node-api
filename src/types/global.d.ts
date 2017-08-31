@@ -5,8 +5,8 @@ export interface LibFormat {
   read?: boolean;
 }
 export interface User {
-  userName: string;
-  id?: number;
+  user_name: string;
+  id: number;
 }
 
 interface Book {

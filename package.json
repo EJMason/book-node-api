@@ -14,7 +14,7 @@
     "test": "jest --verbose --no-cache",
     "test:api": "gulp watch:testAPI",
     "test-ci": "jest --cover buildage",
-    "ts-watch": "gulp watch-ts",
+    "ts-watch": "tsc --watch",
     "precommit": "lint-staged"
   },
   "lint-staged": {

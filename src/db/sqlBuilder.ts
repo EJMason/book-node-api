@@ -4,8 +4,8 @@ const path = require('path');
 
 export = {
   queries: {
-    addAuthor: fileConsumer('author_add.sql')
-    // empty: fileConsumer('users/empty.sql'),
+    addAuthor: fileConsumer('author_add.sql'),
+    addUser: fileConsumer('user_add.sql')
     // init: fileConsumer('users/init.sql'),
     // drop: fileConsumer('users/drop.sql'),
     // add: fileConsumer('users/add.sql')

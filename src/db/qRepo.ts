@@ -1,6 +1,6 @@
 import { IDatabase, IMain } from 'pg-promise';
 import sqlProvider = require('./sqlBuilder');
-import { Author } from 'global';
+import { Author, User } from 'global';
 const sql = sqlProvider;
 
 export class QRepo {
@@ -16,7 +16,19 @@ export class QRepo {
   addAuthor(author: Author) {
     return this.db.one(sql.queries.addAuthor, author.name);
   }
-  findById(id: number) {
-    return this.db.oneOrNone('SELECT * FROM users WHERE id = $1', +id);
+
+  createUser(user: User) {
+    return this.db.one(sql.queries.addUser, user.user_name);
+  }
+
+  findUserById(user: User) {
+    return this.db.oneOrNone('SELECT * FROM users WHERE id = $1', +user.id);
+  }
+
+  findUserByName(user: User) {
+    return this.db.oneOrNone(
+      'SELECT * FROM users WHERE user_name = $1',
+      user.user_name
+    );
   }
 }

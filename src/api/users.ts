@@ -1,5 +1,8 @@
 import { Router } from 'express';
 import * as express from 'express';
+import * as winston from 'winston';
+
+import db = require('../db');
 
 export class UserRouting {
   router: express.Router;
@@ -8,33 +11,35 @@ export class UserRouting {
     this.router = Router();
 
     this.userRouting();
-
-    // // * [PUT] /api/v1/users
-    // this.addNewUserAccount();
-
-    // // * [GET | PUT | DELETE] /api/v1/users/:user_id/books
-    // this.userLibraryRoutes();
-    // // * [PUT | DELETE] /api/v1/users/:user_id/books/read
-    // this.toggleBookReadStatus();
   }
 
   public userRouting() {
-    this.router.post('/', (req, res) => {
-      // put into db here
-
-      res.status(200).send('User Created');
+    this.router.post('/', this.validateUserAccount, (req, res) => {
+      db.queries
+        .createUser(req.body)
+        .then(data => {
+          res.status(200).send(data);
+        })
+        .catch(res.send);
     });
   }
 
-  // ------------ MIDDLEWARE ---------------------- //
-  // private validateUser(req, res, next): void {
-  //   // get info from DB here
-
-  //   if (!req.body.userName || req.body.length < 5 || req.body.length > 20) {
-  //     res.status(400).send('404 - error');
-  //   }
-  //   next();
-  // }
+  private validateUserAccount = async (req, res, next) => {
+    const usr = req.body.user_name;
+    if (!usr || !(typeof usr === 'string')) {
+      res.status(400).send('error, user_name must exist and be a string');
+    } else if (usr.length < 4 || usr.length > 20) {
+      res
+        .status(400)
+        .send('error, user_name length must be greate than 4 and less than 20');
+    } else {
+      const user = await db.queries.findUserByName(req.body);
+      if (user) res.status(400).send('error, username already exists.');
+      else {
+        next();
+      }
+    }
+  };
 
   // ! =======================================================
   public userLibraryRoutes() {
@@ -85,17 +90,6 @@ export class UserRouting {
       .delete((req, res) => {
         // ! toggle book --> unread
         // TODO: toggle book as unread
-      });
-  }
-
-  // * POST - /user
-  public addNewUserAccount() {
-    this.router
-      .route('/')
-      .all(this.ctrl_all) // ? req.body: { username }
-      .post((req, res) => {
-        res.status(200).send('postUSERS');
-        // ! add new user account
       });
   }
 
