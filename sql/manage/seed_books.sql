@@ -1,4 +1,4 @@
-insert into users_books (title, author_id) values
+insert into users_books (title, authors_id) values
 ('Ring-tailed possum', 4),
 ('Bird, pied butcher', 3),
 ('Peccary, white-lipped', 2),

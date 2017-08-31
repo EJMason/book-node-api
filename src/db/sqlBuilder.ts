@@ -4,11 +4,12 @@ const path = require('path');
 
 export = {
   queries: {
-    addAuthor: fileConsumer('author_add.sql'),
-    addUser: fileConsumer('user_add.sql'),
-    addBook: fileConsumer('book_add.sql'),
-    addLibBook: fileConsumer('library_add.sql'),
-    markRead: fileConsumer('book_read.sql')
+    authorInsert: fileConsumer('author_add.sql'),
+    userInsert: fileConsumer('user_add.sql'),
+    bookInsert: fileConsumer('book_add.sql'),
+    bookInsertIntoCollection: fileConsumer('library_add.sql'),
+    bookToggleBooleanRead: fileConsumer('book_read.sql'),
+    bookDeleteFromCollection: fileConsumer('library_remove.sql')
   }
 };
 
@@ -20,7 +21,7 @@ function fileConsumer(file: string): QueryFile {
       schema: 'public'
     }
   };
-  console.log(`${fullPath}/${file}`);
+
   const qf: QueryFile = new QueryFile(`${fullPath}/${file}`, options);
 
   if (qf.error) {

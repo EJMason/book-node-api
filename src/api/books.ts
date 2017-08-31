@@ -1,8 +1,8 @@
 // import { Request, Response } from 'express';
 import BaseRouter from './base';
 import { RouterInterface } from './base';
-
 import db = require('../db');
+import { logger } from './users';
 
 export class BookRouter extends BaseRouter implements RouterInterface {
   constructor() {
@@ -14,9 +14,11 @@ export class BookRouter extends BaseRouter implements RouterInterface {
     /** [POST] /api/v1/books
      * Req.body: { title: string, author: string}
      */
-    this.router.post('/', (req, res) => {
-      console.log('HEEEROOOO: ', req.body);
-      db.queries.createBook(req.body).then(item => res.status(200).send(item));
+    this.router.post('/', this.validBk, (req, res, next) => {
+      db.queries
+        .createBook(req.body)
+        .then(item => res.status(200).send({ data: [item] }))
+        .catch(next);
     });
   }
 

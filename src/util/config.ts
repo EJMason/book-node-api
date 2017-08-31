@@ -35,7 +35,7 @@ const builder = (): Options => {
       dBport: 5432,
       database: process.env.LOCALDBNAME,
       user: process.env.LOCALUSER,
-      connectionString: 'postgres://ejm:4808@localhost:5433/headspace'
+      connectionString: process.env.DBURI
     };
   } else {
     defaults.pg = {
