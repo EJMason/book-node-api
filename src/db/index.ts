@@ -1,9 +1,9 @@
 /// <reference path='../../src/types/global.d.ts' />
 
-// Bluebird is the best promise library available today, and is the one recommended here:
 import * as promise from 'bluebird';
 import { IMain, IDatabase, IOptions } from 'pg-promise';
 import { QRepo } from './qRepo';
+import { logger } from '../api/users';
 
 import config from '../util/config';
 
@@ -19,6 +19,20 @@ const initOptions: IOptions<IExtensions> = {
   }
 };
 
+// ------------- MONITOR ---------- //
+// const monitor = require('pg-monitor');
+
+// monitor.attach(initOptions);
+
+// monitor.setTheme('matrix');
+
+// monitor.setLog((msg, info) => {
+//   // save the screen messages into your own log file;
+//   logger.info('HERE IS A MESSAGE!@');
+//   // logger.info(msg);
+//   logger.info(info);
+// });
+
 // Database connection parameters:
 // const config = {
 //     host: 'localhost',
@@ -26,21 +40,12 @@ const initOptions: IOptions<IExtensions> = {
 //     database: 'headspace',
 //     user: 'ejm'
 // };
-// postgres://ejm:4808@localhost:5432/headspace
-// Loading and initializing pg-promise:
 import * as pgPromise from 'pg-promise';
 
 const pgp: IMain = pgPromise(initOptions);
-// Create the database instance with extensions:
+
 const db = <IDatabase<IExtensions> & IExtensions>pgp(
   'postgres://ejm:4808@localhost:5432/headspace'
 );
 
-// Load and initialize optional diagnostics:
-// import diagnostics = require('./monitor');
-
-// diagnostics.init(initOptions);
-
-// If you ever need access to the library's root (pgp object), you can do it via db.$config.pgp
-// See: http://vitaly-t.github.io/pg-promise/Database.html#.$config
 export = db;

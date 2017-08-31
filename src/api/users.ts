@@ -27,7 +27,12 @@ export class UserRouting {
     this.userRouting();
 
     this.router.use(this.mw);
+
+    // always last
+    this.router.use(this.errorHandlerUsers);
   }
+
+  // -------- Routes ------------//
 
   public userRouting() {
     /**
@@ -44,75 +49,50 @@ export class UserRouting {
     });
 
     /**
-     * POST /api/v1/users/:user_id/books/
+     * POST /api/v1/users/:user_id/books/:books_id
      * req.params.users_id
      * req.body.books_id (allows for batch add)
      * --- Associates a book with a user
+     * ! I SHOULD join the data here...
      */
-    this.router.put('/:users_id/books', (req, res, next) => {
-      winston.info('REQ PARAMS:, ', req.params);
+    this.router.put('/:users_id/books/:books_id', (req, res, next) => {
       db.queries
-        .addToLibrary({
-          books_id: req.body.books_id,
-          users_id: req.params.users_id
-        })
-        .then(data => {
-          winston.info('WHAT IS HERE: :, ', JSON.stringify(data));
-          if (data) res.status(200).send('OK');
-          else res.status(304).send('Error, resource not modified');
+        .addToLibrary(req.params)
+        .then(d => {
+          if (d) res.status(200).send({ data: [d] });
+          else next([304, 'Does not exist']);
         })
         .catch(next);
     });
 
-    /**
-     * POST /api/v1/users/:user_id/books/
+    /**  ! ----- DELETE ------
+     *  /api/v1/users/:user_id/books/:books_id
      * req.params.users_id
-     * req.body.books_id (allows for batch add/remove)
+     * req.body.books_id (allows for batch add + remove)
+     *
+     * Handle if,
+     * user sends incorrect data
      */
-    this.router.delete('./:users_id/books', (req, res, next) => {
-      db.queries
-        .addToLibrary({
-          books_id: req.body.books_id,
-          users_id: req.params.users_id
-        })
-        .then(item => res.status(204).send({}))
-        .catch(next);
-    });
-
-    /**
-     * POST /api/v1/users/:userid/books/read
-     * req.params.users_id
-     * req.body: { books_id }
-     */
-    this.router.put('/:users_id/books/read', (req, res, next) => {
-      const data = {
-        users_id: req.params.users_id,
-        books_id: req.body.books_id
-      };
-      db.queries
-        .toggleRead(data, true)
-        .then(item => res.status(200).send(data))
-        .catch(next);
-    });
-
-    /**
-     * DELETE /api/v1/users/:userid/books/read
-     * req.params.users_id
-     * req.body: { books_id }
-     */
-    this.router.delete('/:users_id/books/read', (req, res, next) => {
-      const data = {
-        users_id: req.params.users_id,
-        books_id: req.body.books_id
-      };
-      db.queries
-        .toggleRead(data, false)
-        .then(item => res.status(204).send({}))
-        .catch(next);
-    });
+    this.router.delete(
+      '/:users_id/books/:books_id',
+      this.handleDelete,
+      (req, res, next) => {
+        db.queries
+          .libraryDelete(req.params)
+          .then(item => res.status(204).send({ status: 204 }))
+          .catch(next);
+      }
+    );
   }
 
   // ---------------- MIDDLEWARE ---------------------------------- //
+  private handleDelete = (req, res, next) => {
+    if (!req.params.books_id || !req.params.users_id) {
+      next([400, 'invalid input']);
+    } else {
+      next();
+    }
+  };
 
   private mw = (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
@@ -120,13 +100,19 @@ export class UserRouting {
 
   private validateUsr = async (req, res, next) => {
     const usr = req.body.user_name;
-    if (!usr) next('400 | invalid input');
-    else if (typeof usr !== 'string') next('400 | invalid input');
-    else if (usr.length < 4 || usr.length > 20) next('400 | invalid input');
+    if (!usr) next(['400', 'invalid input']);
+    else if (typeof usr !== 'string') next([400, 'invalid input']);
+    else if (usr.length < 4 || usr.length > 20) next([400, 'invalid input']);
 
     const user = await db.queries.findUserByName(req.body);
     if (user) res.status(304).send('error, username already exists.');
     else next();
+  };
+
+  private errorHandlerUsers = (err, req, res, next) => {
+    winston.error('Error in Users Routes...');
+    winston.error(err);
+    res.status(400).send(err);
   };
 }
 

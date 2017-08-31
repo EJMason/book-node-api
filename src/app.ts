@@ -45,7 +45,7 @@ class App {
     // pass router object to another folder
     // this.app.use('/', base);
 
-    this.app.use('/api/v1/books', booksRouter.router);
+    this.app.use('/api/v1/books', booksRouter);
     this.app.use('/api/v1/users', usersRouter);
   }
 }

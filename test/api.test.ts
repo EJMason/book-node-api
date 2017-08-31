@@ -6,13 +6,8 @@ const request = supertest(app);
 describe('POST /users with valid data', () => {
   it('should return 200 OK', done => {
     request.post('/api/v1/users').send({ user_name: 'ejmason24' }).expect(200);
-    // .then(rtn => {
-    //   expect(rtn).toHaveProperty('data');
-    //   expect(rtn.data).toHaveLength;
-    //   expect(rtn.data[0]).toHaveProperty('id');
-    //   expect(rtn.data).toHaveProperty('username');
+
     done();
-    // });
   });
 });
 
@@ -47,15 +42,15 @@ xdescribe('POST - /api/v1/books', () => {
   });
 });
 
-xdescribe('PUT - /api/v1/:userid/books/read', () => {
+xdescribe('PUT - /api/v1/books/read', () => {
   it('should return 200 OK', () => {
-    return request.put('/api/v1/users/userid/books/read').expect(200);
+    return request.put('/api/v1/books/read').expect(200);
   });
 });
 
 xdescribe('DEL - /api/v1/:userid/books/read', () => {
   it('should return 200 OK', () => {
-    return request.delete('/api/v1/users/:userid/books/read').expect(200);
+    return request.delete('/api/v1/books/read').expect(200);
   });
 });
 

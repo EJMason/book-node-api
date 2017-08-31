@@ -58,19 +58,41 @@ export class QRepo {
     ]);
   }
 
-  public toggleRead(library: any, isRead: boolean): Promise<any> {
+  public toggleRead(lib: any): Promise<any> {
+    console.log('-------------->>>>>THIS IS HERE: ', lib);
     return this.db.oneOrNone(sql.queries.bookToggleBooleanRead, [
-      isRead,
-      library.users_id,
-      library.books_id
+      `${lib.users_id}`,
+      `${lib.books_id}`
     ]);
   }
 
-  public libraryDelete(obj: any) {
-    return this.db.none(sql.queries.bookDeleteFromCollection);
+  public toggleUnRead(lib: any): Promise<any> {
+    return this.db.oneOrNone(sql.queries.bookToggleBooleanUnRead, [
+      lib.users_id,
+      lib.books_id
+    ]);
   }
 
+  public libraryDelete = async (obj: any) => {
+    const exists = await this.findBookInLibrary(obj);
+    if (exists) {
+      return await this.db.none(sql.queries.bookDeleteFromCollection, [
+        obj.books_id,
+        obj.users_id
+      ]);
+    } else return undefined;
+  };
+
   public joinData(obj) {}
+
+  public findBookInLibrary(data: any) {
+    return this.db.oneOrNone(
+      'SELECT * FROM users_books WHERE users_id=$1 AND books_id=$2',
+      [data.users_id, data.books_id]
+    );
+  }
+
+  // ========== Testing Data Stuff =========== //
 
   public testing: TestScripts = {
     truncate: () => {
@@ -124,13 +146,6 @@ export class QRepo {
       );
     }
   };
-
-  // public findBookInLibrary(data: any) {
-  //     return this.db.oneOrNone(
-  //       'SELECT * FROM users_books WHERE users_id=$1 AND books_id=$2',
-  //       [data.users_id, data.books_id]
-  //     );
-  // }
 
   // public addToLibrary(data): any {
   // return this.db.task('add-book-to-user-library', async t => {
