@@ -71,7 +71,7 @@ export class UserRouting {
       logger.debug('Data from SQL: ' + JSON.stringify(user));
 
       res
-      .status(200)
+      .status(201)
       .send({
         data: [user]
       });
@@ -155,7 +155,7 @@ export class UserRouting {
     return {
         status: status || 400,
         code: null,
-        message: message || "¯\_(ツ)_/¯"
+        message: message || "An error has occured"
       };
   }
 

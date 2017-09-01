@@ -3,7 +3,7 @@
 import * as promise from 'bluebird';
 import { IMain, IDatabase, IOptions } from 'pg-promise';
 import { QRepo } from './qRepo';
-import { logger } from '../errors';
+// import { logger } from '../errors';
 
 // import config from '../util/config';
 
