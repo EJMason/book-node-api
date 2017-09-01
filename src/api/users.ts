@@ -4,25 +4,22 @@ import * as express from 'express';
 import * as winston from 'winston';
 import * as chalk from 'chalk';
 import db = require('../db');
+import { logger } from '../errors';
 
-import config from '../util/config';
+// import config from '../util/config';
 
-export const logger = new winston.Logger({
-  level: 'debug',
-  transports: [
-    new winston.transports.Console({
-      colorize: 'all',
-      // json: true
-    })
-  ]
-});
+/*
+  Usually I separate files into a mess of sub components
+  but for this I put more login into single files for easier
+  reading. In this instance I would have used 2 - 3 more directories.
 
-winston.handleExceptions(
-  new winston.transports.Console({ colorize: true, json: true })
-);
+  1. Routing logic only, routers
+  2. All logic using req and res
+  3. reusable utilities and services
 
-// --------------------------------------------------------------------
+  persistent layer code would live in the db directory
 
+ */
 
 export class UserRouting {
   router: express.Router;
@@ -37,7 +34,6 @@ export class UserRouting {
 
     this.router.all('/*', this.catchAll);
 
-    // always last
     this.router.use(this.errorHandlerUsers);
   }
 
@@ -47,6 +43,7 @@ export class UserRouting {
    * filter by author    /users/books?author=name
    * filter by read |unread  /books?read=true
    * sorted by read and unread
+   * @param null or url query parameters
    */
   private getUsersBooks = async (req, res, next) => {
     let books = await db.queries.getAllUsersBooks(req.params);
@@ -65,7 +62,8 @@ export class UserRouting {
     /**
      * Add user to ddatabase
      *  POST - /api/v1/users
-     * req.body: { user_name }
+     * @param req.body: { user_name }
+     * @return data user object
      */
   private addUser = async (req, res, next) => {
     try {
@@ -95,9 +93,9 @@ export class UserRouting {
    * req.params.users_id
    * --- Associates a book with a user
    * ! I SHOULD join the data here...
+   * @return json book
    */
   private addToLibrary = (req, res, next) => {
-    logger.verbose(chalk.red('\n\n-------- Add Library ----------\n\n'));
     if (req.params.users_id === 'books') {
       next();
     }
@@ -133,7 +131,6 @@ export class UserRouting {
    * user sends incorrect data
    */
   private removeFromLibrary = (req, res, next) => {
-     logger.verbose(chalk.red('\n\n-------- Remove From Library ----------\n\n'));
     db.queries
       .libraryDelete(req.params)
       .then(item => {
@@ -151,7 +148,6 @@ export class UserRouting {
    *
    */
   private catchAll = (req, res, next) => {
-    logger.verbose('Users: route DNE');
     next(this.returnError(400, `Route DNE: ${req.route}`));
   }
 
@@ -164,13 +160,17 @@ export class UserRouting {
   }
 
 
-
+  /**
+   * Filters books data, error if data invalid
+   */
   private bookFilter = (books, query) => {
     return books.filter(book => {
-      if (query.hasOwnProperty('read') && !(book.read.toString() === query.read)) {
+      if (query.hasOwnProperty('read')
+        && !(book.read.toString() === query.read)) {
         return false;
       }
-      if (query.hasOwnProperty('author') && !(book.author.toLowerCase() === query.author.toLowerCase())) {
+      if (query.hasOwnProperty('author')
+        && !(book.author.toLowerCase() === query.author.toLowerCase())) {
         return false;
       }
       return true;
@@ -179,7 +179,9 @@ export class UserRouting {
 
 
     // ---------------- MIDDLEWARE ---------------------------------- //
-
+  /**
+   * Validates delete method
+   */
   private handleDelete = (req, res, next) => {
     logger.verbose(chalk.blue('\n\n-------- Middleware Handle Delete ----------\n\n'));
     if (!req.params.books_id || !req.params.users_id) {
@@ -195,10 +197,10 @@ export class UserRouting {
     }
   };
 
-    /**
-     * Validates user data
-     * /users
-     */
+  /**
+   * Validates user data
+   * /users
+   */
   private validateUsr = async (req, res, next) => {
     logger.verbose(chalk.blue('\n\n-------- Middleware Validate User ----------\n\n'));
 
@@ -226,6 +228,10 @@ export class UserRouting {
     }
   };
 
+
+  /**
+   * Handles all error requests
+   */
   private errorHandlerUsers = (err, req, res, next) => {
     logger.verbose(chalk.blue('\n\n-------- Error: Handle for Users ----------\n\n'));
     winston.verbose(err);

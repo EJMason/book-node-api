@@ -3,7 +3,7 @@
 import * as promise from 'bluebird';
 import { IMain, IDatabase, IOptions } from 'pg-promise';
 import { QRepo } from './qRepo';
-import { logger } from '../api/users';
+import { logger } from '../errors';
 
 // import config from '../util/config';
 
@@ -20,18 +20,12 @@ const initOptions: IOptions<IExtensions> = {
 };
 
 // ------------- MONITOR ---------- //
-const monitor = require('pg-monitor');
-
-monitor.attach(initOptions);
-
-monitor.setTheme('matrix');
-
-monitor.setLog((msg, info) => {
-  // save the screen messages into your own log file;
-  logger.info('HERE IS A MESSAGE!@');
-  // logger.info(msg);
-  logger.info(info);
-});
+// const monitor = require('pg-monitor');
+// monitor.attach(initOptions);
+// monitor.setTheme('matrix');
+// monitor.setLog((msg, info) => {
+//   logger.debug(info);
+// });
 
 // Database connection parameters:
 // const config = {

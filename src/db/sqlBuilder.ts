@@ -26,9 +26,7 @@ function fileConsumer(file: string): QueryFile {
 
   const qf: QueryFile = new QueryFile(`${fullPath}/${file}`, options);
 
-  if (qf.error) {
-    console.error(qf.error);
-  }
+  if (qf.error) {}
 
   return qf;
 }

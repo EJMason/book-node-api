@@ -3,7 +3,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as morgan from 'morgan';
 import * as chalk from 'chalk';
-import { logger } from './api/users';
+import { logger } from './errors';
 
 import config from './util/config';
 import booksRouter from './api/books';
@@ -44,8 +44,6 @@ class App {
       res.status(200).send('HI me!');
     });
 
-    // pass router object to another folder
-    // this.app.use('/', base);
 
     this.app.use('/api/v1/books', booksRouter);
     this.app.use('/api/v1/users', usersRouter);
@@ -53,7 +51,6 @@ class App {
 
   private prequest = (req, res, next) => {
     logger.verbose(chalk.red('Prequest setting info'));
-
     logger.debug(chalk.magenta('Method: '), req.method);
     logger.debug(chalk.magenta('Body: '),   JSON.stringify(req.body));
     logger.debug(chalk.magenta('Params: '), JSON.stringify(req.params));

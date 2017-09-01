@@ -1,16 +1,26 @@
 import * as chalk from 'chalk';
-import { logger } from './api/users';
 import config from './util/config';
+import * as winston from 'winston';
 
 // ----------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------- //
 // THIS GOES OFF IN PRODUCTION
 
+export const logger = new winston.Logger({
+  level: config.is_prod ? 'error' : 'debug',
+  transports: [
+    new winston.transports.Console({
+      colorize: 'all',
+      // json: true
+    })
+  ]
+});
+
 process.on('unhandledRejection', function handleWarning(reason, promise) {
-  console.log(chalk.magenta.bold('[PROCESS] Unhandled Promise Rejection'));
-  console.log(chalk.blue.bold('- - - - - - - - - - - - - - - - - - -'));
-  console.log(reason);
-  console.log(chalk.red.bold('- -'));
+  logger.debug(chalk.magenta.bold('[PROCESS] Unhandled Promise Rejection'));
+  logger.debug(chalk.blue.bold('- - - - - - - - - - - - - - - - - - -'));
+  logger.debug(reason);
+  logger.debug(chalk.red.bold('- -'));
 });
 
 // interface HttpError {
@@ -19,6 +29,12 @@ process.on('unhandledRejection', function handleWarning(reason, promise) {
 //   code: number;
 //   link: string;
 // }
+if (process.env.NODE_ENV !== 'production') {
+  winston.handleExceptions(
+    new winston.transports.Console({ colorize: true, json: true })
+  );
+
+}
 
 class Errors {
   private codes: Array<string>;
@@ -27,7 +43,7 @@ class Errors {
   }
 
   public clientErrorHandler(err, req, res, next) {
-    logger.verbose(chalk.red('----------THERE WAS AN ERROR-------------'));
+    logger.verbose(chalk.red('ERROR...'));
     logger.verbose(chalk.magenta('Route: '),  req.route);
     logger.verbose(chalk.magenta('Path: '),  req.path);
     logger.verbose(chalk.magenta('Body: '),   JSON.stringify(req.body));
@@ -38,16 +54,6 @@ class Errors {
       res.status(500).send({ error: 'Something failed!' });
     } else {
       next(err);
-      // res
-      // .status(err.xError.status || 400)
-      // .send({
-      //   error: {
-      //     status: 400
-      //   },
-      //   message: 'Oops, it looks like there was an error!',
-      //   data: []
-      // });
-      // next(err);
     }
   }
 }

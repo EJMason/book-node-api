@@ -2,8 +2,21 @@ import { RespError } from 'global';
 import * as express from 'express';
 import { Router } from 'express';
 import db = require('../db');
-import { logger } from './users';
-import * as chalk from 'chalk';
+import { logger } from '../errors';
+// import * as chalk from 'chalk';
+
+/*
+  Usually I separate files into a mess of sub components
+  but for this I put more login into single files for easier
+  reading. In this instance I would have used 2 - 3 more directories.
+
+  1. Routing logic only, routers
+  2. All logic using req and res
+  3. reusable utilities and services
+
+  persistent layer code would live in the db directory
+
+ */
 
 export class BookRouter {
   router: express.Router;
@@ -11,30 +24,34 @@ export class BookRouter {
   constructor() {
     this.router = Router();
 
+    // user routes listed here, controllers are below
     this.router.post('/', this.validBk, this.addBook);
     this.router.put('/read', this.markBookRead);
     this.router.put('/unread', this.markBookUnread);
 
     this.router.all('/*', this.catchAll);
-
     this.router.use(this.errorHandlerBooks);
   }
 
-    /** [POST] /api/v1/books
-     * req.body: { title: string, author: string}
-     * add books to the database
-     */
-    private addBook = (req, res, next) => {
-      db.queries
-        .createBook(req.body)
-        .then(item => res.status(200).send({ data: [item] }))
-        .catch(next);
-    };
+
+  /** [POST] /api/v1/books
+   * add books to the database
+   * @param req.body { title: string, author: string}
+   * @return json { title, id, author_id }
+   */
+  private addBook = (req, res, next) => {
+    db.queries
+      .createBook(req.body)
+      .then(item => res.status(200).send({ data: [item] }))
+      .catch(next);
+  };
+
 
   /**
-   * PUT /api/v1/books/read - 100%
-   * req.body: { books_id, users_id }
    * updated books to status read
+   * PUT /api/v1/books/read - 100%
+   * @param req.body: { books_id, users_id }
+   * @return json: data element changed
    */
   private markBookRead = (req, res, next) => {
     db.queries
@@ -45,13 +62,14 @@ export class BookRouter {
       .catch(next);
   };
 
+
   /**
-   * PUT /api/v1/books/unread - 100%
-   * req.body: { books_id, users_id }
    * updates books to status unread.
+   * PUT /api/v1/books/unread - 100%
+   * @param req.body: { books_id, users_id }
+   * @return json modified element
    */
   private markBookUnread = (req, res, next) => {
-    console.log('\n\n reg body: ', req.body);
     db.queries
       .toggleUnRead(req.body)
       .then(data => {
@@ -60,7 +78,13 @@ export class BookRouter {
       .catch(next);
   };
 
+
+
   // ------------ MIDDLEWARE ---------------------- //
+  /**
+   * Validates data for certain book routes
+   * @return null
+   */
   protected validBk(req, res, next): void {
 
     const title = req.body.title;
@@ -88,20 +112,19 @@ export class BookRouter {
 }
 
   // -------------- MIDDLEWARES ----------------------- //
-
+  /**
+   * Simple catch all for erroneus requests
+   */
   private catchAll = (req, res, next) => {
     logger.verbose('Users: route DNE');
     next(this.returnError(400, `Route DNE: ${req.route}`));
   }
 
+  /**
+   * Handles all errors in this users route,
+   * should be inherited from parent
+   */
   private errorHandlerBooks = (err, req, res, next) => {
-    logger.verbose(chalk.blue('\n\n-------- Error: Handle for Users ----------\n\n'));
-    logger.verbose(chalk.magenta('Path: '),  req.path);
-    logger.verbose(chalk.magenta('Body: '),   JSON.stringify(req.body));
-    logger.verbose(chalk.magenta('Params: '), JSON.stringify(req.params));
-
-    logger.debug(chalk.magenta('Route: '),  req.route);
-    // lots of info in the route
     const error = Object.assign({status: 400, message: "¯\_(ツ)_/¯" }, err.xError);
     const status = (!err.xError) ? 400 : err.xError.status;
     res.status(status || 400).send({

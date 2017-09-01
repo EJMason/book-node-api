@@ -7,13 +7,14 @@
   "author": "EJMason <eliotjunior@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon ./dist/server.js",
+    "prestart": "yarn install && tsc",
+    "start": "node ./dist/server.js",
     "build": "tsc",
     "dev": "tsc --watch",
     "test": "jest --verbose",
     "test:api": "gulp watch:testAPI",
     "ts-watch": "tsc --watch",
-    "clean": "rm -rf node_modules && rm -rf dist && yarn install && tsc"
+    "cleaner": "rm -rf node_modules && rm -rf dist"
   },
   "jest": {
     "globals": {
@@ -65,7 +66,6 @@
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
-    "gulp-clean": "^0.3.2",
     "gulp-env": "^0.4.0",
     "gulp-nodemon": "^2.2.1",
     "gulp-sourcemaps": "^2.6.1",
@@ -75,9 +75,7 @@
     "jest": "^20.0.4",
     "lint-staged": "^4.0.4",
     "nodemon": "^1.11.0",
-    "nyc": "^11.1.0",
     "prettier": "^1.5.3",
-    "pump": "^1.0.2",
     "run-sequence": "^2.1.0",
     "supertest": "^3.0.0",
     "ts-jest": "^20.0.10",
