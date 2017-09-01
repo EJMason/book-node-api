@@ -56,14 +56,24 @@ export class UserRouting {
  * sorted by read and unread
  */
 private getUsersBooks = async (req, res, next) => {
-  const books = await db.queries.getAllUsersBooks(req.params);
+  let books = await db.queries.getAllUsersBooks(req.params);
+
+  books = this.bookFilter(books, req.query);
 
   res.status(200).send(books);
-  // logger.verbose(chalk.blue.bgRed.bold('\n\n-------- Get Users Books ----------\n\n'));
-  // db.queries.getAllUsersBooks(req.params).then(a => {
-  //   console.log(a);
-  //   res.status(200).send(a);
-  // });
+
+}
+
+private bookFilter = (books, query) => {
+  return books.filter(book => {
+    if (query.hasOwnProperty('read') && !(book.read.toString() === query.read)) {
+      return false;
+    }
+    if (query.hasOwnProperty('author') && !(book.author.toLowerCase() === query.author.toLowerCase())) {
+      return false;
+    }
+    return true;
+  });
 }
 
 // ! ==========================================================
@@ -167,6 +177,7 @@ private removeFromLibrary = (req, res, next) => {
 
 
   // ---------------- MIDDLEWARE ---------------------------------- //
+
   private handleDelete = (req, res, next) => {
     logger.verbose(chalk.blue('\n\n-------- Middleware Handle Delete ----------\n\n'));
     if (!req.params.books_id || !req.params.users_id) {

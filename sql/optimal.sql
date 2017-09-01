@@ -1,4 +1,4 @@
-SELECT users_books.read, books.id AS books_id, books.title, authors.name AS author
+SELECT users_books.read, books.id AS books_id, books.title, authors.name AS author, authors.id AS authors_id
 FROM users
 INNER JOIN users_books
 ON users.id = users_books.users_id
