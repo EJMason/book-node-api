@@ -100,6 +100,9 @@ There are a lot of things I would have done differently for the overall design o
 
 # API design and process
 
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fe5ec6e37eb13c11ddae)
+
 API conform to REST principles and ensure the enpoints made sense for CRUD operations. Explanations for each endpoint below:
 
 ##### note: all endponts use prefix /api/v1
