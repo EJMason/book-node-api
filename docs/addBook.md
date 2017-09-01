@@ -1,6 +1,6 @@
-# User: Create new user
+# User: Create new Book
 
-Create a new book
+Adds a new book to the database and creates a new author if he doesn't exist.
 
 **URL** : `/api/v1/books`
 
@@ -36,20 +36,21 @@ Provide user name of Account to be created.
 
 ```json
 {
-  "data": [
-    {
-        "id": 9,
-        "user_name": "ploob"
-    }
-  ]
+    "data": [
+        {
+            "id": 1,
+            "title": "LOTR",
+            "authors_id": "1"
+        }
+    ]
 }
 ```
 
 ## Error Responses
 
-**Condition** : If Account already exists for User.
+**Condition** : Missing field error.
 
-**Code** : `303 SEE OTHER`
+**Code** : `400 Invalid`
 
 **Headers** : `Location: http://testserver/api/accounts/123/`
 
@@ -58,8 +59,8 @@ Provide user name of Account to be created.
 ```json
 {
     "error": {
-        "status": 409,
-        "message": "Username Already Exists.",
+        "status": 400,
+        "message": "invalid input",
         "code": null
     },
     "message": "Oops, it looks like there was an error!",
@@ -67,23 +68,5 @@ Provide user name of Account to be created.
 }
 ```
 
-### Or
-
-**Condition** : If fields are missed, or too long.
-
-**Code** : `400 BAD REQUEST`
-
-**Content example**
-
-```json
-{
-  "error": {
-    "status": 400,
-    "message": "Something went wrong"
-  },
-  "message": "Oops, it looks like there was an error!",
-  "data": []
-}
-```
 
 

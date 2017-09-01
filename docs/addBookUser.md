@@ -8,23 +8,23 @@ Adds a book to a users library. The book must already exist
 
 #### Data constraints
 
-Provide user name of Account to be created.
+Provide id of user and book
 
 ```javascript
 provide app parameters
+:users_id
+:books_d
 ```
 
 **Data example** All fields must be sent.
 
 ```json
-{
-    "user_name": "antz_in_pantz24"
-}
+http://localhost:8000/api/v1/users/7/books/1
 ```
 
 ## Success Response
 
-**Condition** : Account created if it was unique and conformed to length parameters.
+**Condition** : Content successfully created
 
 **Code** : `201 CREATED`
 
@@ -32,40 +32,22 @@ provide app parameters
 
 ```json
 {
-  "data": [
-    {
-        "id": 9,
-        "user_name": "ploob"
-    }
-  ]
+  {
+    "data": [
+        {
+            "books_id": "1",
+            "title": "Super Good Book",
+            "users_id": "1",
+            "read": false
+        }
+    ]
+}
 }
 ```
 
 ## Error Responses
 
-**Condition** : If Account already exists for User.
-
-**Code** : `303 SEE OTHER`
-
-**Headers** : `Location: http://testserver/api/accounts/123/`
-
-**Content** :
-
-```json
-{
-    "error": {
-        "status": 409,
-        "message": "Username Already Exists.",
-        "code": null
-    },
-    "message": "Oops, it looks like there was an error!",
-    "data": []
-}
-```
-
-### Or
-
-**Condition** : If fields are missed, or too long.
+**Condition** : If book or user does not exist.
 
 **Code** : `400 BAD REQUEST`
 
@@ -73,12 +55,12 @@ provide app parameters
 
 ```json
 {
-  "error": {
-    "status": 400,
-    "message": "Something went wrong"
-  },
-  "message": "Oops, it looks like there was an error!",
-  "data": []
+    "error": {
+        "status": 400,
+        "message": "Something bad happened"
+    },
+    "message": "Oops, it looks like there was an error!",
+    "data": []
 }
 ```
 

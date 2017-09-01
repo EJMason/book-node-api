@@ -1,6 +1,6 @@
-# User: Create new user
+# User: Query collection of books
 
-Create a new user in the database. Ensures that there can be no duplicates. Must conform to a length and style criteria
+Gets all the books associated with a user
 
 **URL** : `/api/v1/users/books`
 
@@ -27,7 +27,7 @@ Create a new user in the database. Ensures that there can be no duplicates. Must
         {
             "read": false,
             "books_id": 1,
-            "title": "Ring-tailed possum",
+            "title": "The cowboys handbook",
             "author": "Jolyn Northeast",
             "authors_id": 2
         },
