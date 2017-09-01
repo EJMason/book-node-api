@@ -1,5 +1,6 @@
 import * as chalk from 'chalk';
 import { logger } from './api/users';
+import config from './util/config';
 
 // ----------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------- //
@@ -26,16 +27,26 @@ class Errors {
   }
 
   public clientErrorHandler(err, req, res, next) {
+    logger.verbose(chalk.red('----------THERE WAS AN ERROR-------------'));
     logger.verbose(chalk.magenta('Route: '),  req.route);
     logger.verbose(chalk.magenta('Path: '),  req.path);
     logger.verbose(chalk.magenta('Body: '),   JSON.stringify(req.body));
     logger.verbose(chalk.magenta('Params: '), JSON.stringify(req.params));
 
     if (req.xhr) {
-      logger.error('Internal Server Error ', req.xhr);
+      logger.error('Internal Server Error ', JSON.stringify(req.xhr));
       res.status(500).send({ error: 'Something failed!' });
     } else {
-      res.status(400).json({ error: 'Oops..., an error occured' });
+      next(err);
+      // res
+      // .status(err.xError.status || 400)
+      // .send({
+      //   error: {
+      //     status: 400
+      //   },
+      //   message: 'Oops, it looks like there was an error!',
+      //   data: []
+      // });
       // next(err);
     }
   }

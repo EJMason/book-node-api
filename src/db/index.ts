@@ -5,7 +5,7 @@ import { IMain, IDatabase, IOptions } from 'pg-promise';
 import { QRepo } from './qRepo';
 import { logger } from '../api/users';
 
-import config from '../util/config';
+// import config from '../util/config';
 
 interface IExtensions {
   queries: QRepo;

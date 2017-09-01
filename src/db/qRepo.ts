@@ -1,6 +1,11 @@
 import { IDatabase, IMain } from 'pg-promise';
 import sqlProvider = require('./sqlBuilder');
-import { Author, User, Book } from 'global';
+import {
+  Author,
+  User,
+  User_RAW,
+  // Book
+} from 'global';
 import * as winston from 'winston';
 const sql = sqlProvider;
 
@@ -20,18 +25,24 @@ export class QRepo {
 
   // --------- USER ------------ //
   public findUserByName(user: User) {
-    return this.db.oneOrNone(
+    return this.db
+    .oneOrNone(
       'SELECT * FROM users WHERE user_name = $1',
       user.user_name
     );
   }
 
   public getUsers(id: any) {
-    return this.db.query('SELECT * FROM users');
+    return this.db.query(
+      'SELECT * FROM users'
+    );
   }
 
-  public findUserById(user: User) {
-    return this.db.oneOrNone('SELECT * FROM users WHERE id = $1', +user.id);
+  public findUserById(user: User_RAW) {
+    return this.db.oneOrNone(
+      'SELECT * FROM users WHERE id = $1',
+       +user.id
+      );
   }
 
   public createUser(user: User) {
@@ -55,7 +66,11 @@ export class QRepo {
   };
 
   // ----------- COLECTION ------------ //
-  public addToLibrary(data): any {
+  public getAllUsersBooks(data: User): Promise<any> {
+    return this.db.manyOrNone(sql.queries.allBooks, data.users_id);
+  }
+
+  public addToLibrary(data): Promise<any> {
     return this.db.oneOrNone(sql.queries.bookInsertIntoCollection, [
       `${data.books_id}`,
       `${data.users_id}`

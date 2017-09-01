@@ -52,14 +52,14 @@ class App {
   }
 
   private prequest = (req, res, next) => {
+    logger.verbose(chalk.red('Prequest setting info'));
+
     logger.debug(chalk.magenta('Method: '), req.method);
     logger.debug(chalk.magenta('Body: '),   JSON.stringify(req.body));
     logger.debug(chalk.magenta('Params: '), JSON.stringify(req.params));
 
     logger.debug(JSON.stringify(req.route));
     // logger.debug(chalk.magenta('Route: '),  req.route);
-
-    logger.verbose('Prequest setting info');
 
     res.set({
       'Content-Type': 'application/json',

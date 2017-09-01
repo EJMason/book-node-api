@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Router } from 'express';
 import db = require('../db');
-import { logger } from './users';
+// import { logger } from './users';
 
 export class BookRouter {
   router: express.Router;

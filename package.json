@@ -13,8 +13,7 @@
     "test": "jest --verbose",
     "test:api": "gulp watch:testAPI",
     "ts-watch": "tsc --watch",
-    "clean": "rm -rf node_modules && rm -rf dist && yarn install && tsc",
-    "precommit": "lint-staged"
+    "clean": "rm -rf node_modules && rm -rf dist && yarn install && tsc"
   },
   "jest": {
     "globals": {
