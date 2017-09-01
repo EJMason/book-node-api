@@ -13,7 +13,8 @@ export class BookRouter {
 
   public endpoints() {
     /** [POST] /api/v1/books
-     * Req.body: { title: string, author: string}
+     * req.body: { title: string, author: string}
+     * add books to the database
      */
     this.router.post('/', this.validBk, (req, res, next) => {
       db.queries
@@ -25,6 +26,7 @@ export class BookRouter {
     /**
      * PUT /api/v1/books/read - 100%
      * req.body: { books_id, users_id }
+     * updated books to status read
      */
     this.router.put('/read', (req, res, next) => {
       db.queries
@@ -37,8 +39,9 @@ export class BookRouter {
     });
 
     /**
-     * PUT /api/v1/books/unread
+     * PUT /api/v1/books/unread - 100%
      * req.body: { books_id, users_id }
+     * updates books to status unread.
      */
     this.router.put('/unread', (req, res, next) => {
       db.queries
@@ -49,7 +52,6 @@ export class BookRouter {
 
   // ------------ MIDDLEWARE ---------------------- //
   protected validBk(req, res, next): void {
-    // TODO: get info from DB here.
 
     const title = req.body.title;
     const author = req.body.author;

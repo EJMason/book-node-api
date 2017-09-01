@@ -1,5 +1,5 @@
-import winston from 'winston';
 import * as chalk from 'chalk';
+import { logger } from './api/users';
 
 // ----------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------- //
@@ -11,18 +11,6 @@ process.on('unhandledRejection', function handleWarning(reason, promise) {
   console.log(reason);
   console.log(chalk.red.bold('- -'));
 });
-
-// // Now, let's create a Promise chain that has no error handling.
-// Promise
-//   .resolve( "I can haz fulfillment?!" )
-//   .then(
-//       function( value ) {
-
-//           throw( new Error( "Something went wrong." ) );
-
-//       }
-//   )
-// ;
 
 // interface HttpError {
 //   status: number;
@@ -38,11 +26,16 @@ class Errors {
   }
 
   public clientErrorHandler(err, req, res, next) {
+    logger.verbose(chalk.magenta('Route: '),  req.route);
+    logger.verbose(chalk.magenta('Path: '),  req.path);
+    logger.verbose(chalk.magenta('Body: '),   JSON.stringify(req.body));
+    logger.verbose(chalk.magenta('Params: '), JSON.stringify(req.params));
+
     if (req.xhr) {
-      winston.verbose('Internal Server Error ', req.xhr);
+      logger.error('Internal Server Error ', req.xhr);
       res.status(500).send({ error: 'Something failed!' });
     } else {
-      res.status(400).send({ error: 'Oops...' });
+      res.status(400).json({ error: 'Oops..., an error occured' });
       // next(err);
     }
   }

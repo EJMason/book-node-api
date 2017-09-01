@@ -4,10 +4,10 @@ import { Author, User, Book } from 'global';
 import * as winston from 'winston';
 const sql = sqlProvider;
 
-interface TestScripts {
-  truncate: () => void;
-  createTables: () => void;
-}
+// interface TestScripts {
+//   truncate: () => void;
+//   createTables: () => void;
+// }
 
 export class QRepo {
   constructor(db: any, pgp: IMain) {
@@ -26,6 +26,10 @@ export class QRepo {
     );
   }
 
+  public getUsers(id: any) {
+    return this.db.query('SELECT * FROM users');
+  }
+
   public findUserById(user: User) {
     return this.db.oneOrNone('SELECT * FROM users WHERE id = $1', +user.id);
   }
@@ -35,7 +39,7 @@ export class QRepo {
   }
 
   // --------- AUTHOR -----------------//
-  public createAuthor(author) {
+  public createAuthor(author: Author) {
     winston.verbose('Create author Query');
     winston.verbose(`${sql.queries.authorInsert}`);
     return this.db.one(sql.queries.authorInsert, author.name);
@@ -59,7 +63,6 @@ export class QRepo {
   }
 
   public toggleRead(lib: any): Promise<any> {
-    console.log('-------------->>>>>THIS IS HERE: ', lib);
     return this.db.oneOrNone(sql.queries.bookToggleBooleanRead, [
       `${lib.users_id}`,
       `${lib.books_id}`
@@ -83,10 +86,8 @@ export class QRepo {
     } else return undefined;
   };
 
-  public joinData(obj) {}
-
   public findBookInLibrary(data: any) {
-    return this.db.oneOrNone(
+    return this.db.query(
       'SELECT * FROM users_books WHERE users_id=$1 AND books_id=$2',
       [data.users_id, data.books_id]
     );
@@ -94,58 +95,58 @@ export class QRepo {
 
   // ========== Testing Data Stuff =========== //
 
-  public testing: TestScripts = {
-    truncate: () => {
-      winston.info('TRUNCATING TABLES...');
-      return this.db.none(
-        `TRUNCATE "users", "books", "authors", "users_books" CASCADE;`
-      );
-    },
-    createTables: () => {
-      return this.db.none(
-        `CREATE TABLE "users" (
-          "id" serial NOT NULL,
-          "user_name" TEXT NOT NULL UNIQUE,
-          CONSTRAINT users_pk PRIMARY KEY ("id")
-        );
+  // public testing: TestScripts = {
+  //   truncate: () => {
+  //     winston.info('TRUNCATING TABLES...');
+  //     return this.db.none(
+  //       `TRUNCATE "users", "books", "authors", "users_books" CASCADE;`
+  //     );
+  //   },
+  //   createTables: () => {
+  //     return this.db.none(
+  //       `CREATE TABLE "users" (
+  //         "id" serial NOT NULL,
+  //         "user_name" TEXT NOT NULL UNIQUE,
+  //         CONSTRAINT users_pk PRIMARY KEY ("id")
+  //       );
 
-        CREATE TABLE "books" (
-          "id" serial NOT NULL,
-          "title" TEXT NOT NULL,
-          "authors_id" int8 NOT NULL,
-          CONSTRAINT books_pk PRIMARY KEY ("id")
-        );
+  //       CREATE TABLE "books" (
+  //         "id" serial NOT NULL,
+  //         "title" TEXT NOT NULL,
+  //         "authors_id" int8 NOT NULL,
+  //         CONSTRAINT books_pk PRIMARY KEY ("id")
+  //       );
 
-        CREATE TABLE "authors" (
-          "id" serial NOT NULL,
-          "name" TEXT NOT NULL UNIQUE,
-          CONSTRAINT authors_pk PRIMARY KEY ("id")
-        );
+  //       CREATE TABLE "authors" (
+  //         "id" serial NOT NULL,
+  //         "name" TEXT NOT NULL UNIQUE,
+  //         CONSTRAINT authors_pk PRIMARY KEY ("id")
+  //       );
 
-        CREATE TABLE "users_books" (
-          "books_id" int8 NOT NULL,
-          "users_id" int8 NOT NULL,
-          "read" BOOLEAN NOT NULL DEFAULT 'false'
-        );
+  //       CREATE TABLE "users_books" (
+  //         "books_id" int8 NOT NULL,
+  //         "users_id" int8 NOT NULL,
+  //         "read" BOOLEAN NOT NULL DEFAULT 'false'
+  //       );
 
-        ALTER TABLE "books" ADD
-        CONSTRAINT "books_fk0"
-        FOREIGN KEY ("authors_id")
-        REFERENCES "authors"("id");
+  //       ALTER TABLE "books" ADD
+  //       CONSTRAINT "books_fk0"
+  //       FOREIGN KEY ("authors_id")
+  //       REFERENCES "authors"("id");
 
-        ALTER TABLE "users_books" ADD
-        CONSTRAINT "users_books_fk0"
-        FOREIGN KEY ("books_id")
-        REFERENCES "books"("id");
+  //       ALTER TABLE "users_books" ADD
+  //       CONSTRAINT "users_books_fk0"
+  //       FOREIGN KEY ("books_id")
+  //       REFERENCES "books"("id");
 
-        ALTER TABLE "users_books" ADD
-        CONSTRAINT "users_books_fk1"
-        FOREIGN KEY ("users_id")
-        REFERENCES "users"("id");
-      `
-      );
-    }
-  };
+  //       ALTER TABLE "users_books" ADD
+  //       CONSTRAINT "users_books_fk1"
+  //       FOREIGN KEY ("users_id")
+  //       REFERENCES "users"("id");
+  //     `
+  //     );
+  //   }
+  // };
 
   // public addToLibrary(data): any {
   // return this.db.task('add-book-to-user-library', async t => {

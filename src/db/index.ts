@@ -20,18 +20,18 @@ const initOptions: IOptions<IExtensions> = {
 };
 
 // ------------- MONITOR ---------- //
-// const monitor = require('pg-monitor');
+const monitor = require('pg-monitor');
 
-// monitor.attach(initOptions);
+monitor.attach(initOptions);
 
-// monitor.setTheme('matrix');
+monitor.setTheme('matrix');
 
-// monitor.setLog((msg, info) => {
-//   // save the screen messages into your own log file;
-//   logger.info('HERE IS A MESSAGE!@');
-//   // logger.info(msg);
-//   logger.info(info);
-// });
+monitor.setLog((msg, info) => {
+  // save the screen messages into your own log file;
+  logger.info('HERE IS A MESSAGE!@');
+  // logger.info(msg);
+  logger.info(info);
+});
 
 // Database connection parameters:
 // const config = {

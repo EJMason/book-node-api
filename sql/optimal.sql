@@ -6,4 +6,4 @@ INNER JOIN books
 ON users_books.books_id = books.id
   INNER JOIN authors ON
   books.authors_id = authors.id
-WHERE users.id = 1;
+WHERE users.id = $1;

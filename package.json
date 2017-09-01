@@ -8,20 +8,13 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon ./dist/server.js",
-    "build": "gulp build-ts",
-    "seed": "node ./dist/db/seed",
+    "build": "tsc",
     "dev": "tsc --watch",
     "test": "jest --verbose",
     "test:api": "gulp watch:testAPI",
-    "test-ci": "jest --cover buildage",
     "ts-watch": "tsc --watch",
+    "clean": "rm -rf node_modules && rm -rf dist && yarn install && tsc",
     "precommit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
   },
   "jest": {
     "globals": {

@@ -10,7 +10,8 @@ export = {
     bookInsertIntoCollection: fileConsumer('library_add.sql'),
     bookToggleBooleanRead: fileConsumer('book_read.sql'),
     bookToggleBooleanUnRead: fileConsumer('book_unread.sql'),
-    bookDeleteFromCollection: fileConsumer('library_remove.sql')
+    bookDeleteFromCollection: fileConsumer('library_remove.sql'),
+    allBooks: fileConsumer('optimal.sql')
   }
 };
 
