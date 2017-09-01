@@ -9,6 +9,7 @@
   "scripts": {
     "prestart": "yarn install && tsc",
     "start": "node ./dist/server.js",
+    "install:npm": "npm isntall && npm tsc && node ./dist/server.js",
     "build": "tsc",
     "dev": "tsc --watch",
     "test": "jest --verbose",
