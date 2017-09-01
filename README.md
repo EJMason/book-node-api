@@ -85,19 +85,19 @@ I designed the schema in this way so the users_books relation table (many-to-man
 
 API conform to REST principles and ensure the enpoints made sense for CRUD operations. Explanations for each endpoint below:
 
-* [**CREATE new user**](docs/userCreate.md) : `POST /api/v1/users`
+* [**CREATE new user**](docs/userCreate.md) : POST /api/v1/**users**
 
-* [**GET users books**](docs/userCreate.md) : `GET /api/v1/users/books`
+* [**GET users books**](docs/userCreate.md) : GET /api/v1**/users/books**
   * filter by author `?author={name}`
   * filter by read   `?read={true/false}`
   * filers may be combined
 
-* [**Add book to user Library**](docs/userCreate.md) : `PUT /api/v1/user/:users_id/books/books_id`
+* [**Add book to user Library**](docs/userCreate.md) : PUT /api/v1**/user/:users_id/books/books_id**
 
 
-* [**Delete from Library**](docs/userCreate.md) : `DELETE /users/:users_id/books/:books_id`
+* [**Delete from Library**](docs/userCreate.md) : DELETE /api/vi**/users/:users_id/books/:books_id**
 
-* [**CREATE new book**](docs/userCreate.md) : `POST /api/v1/books`
+* [**CREATE new book**](docs/userCreate.md) : POST /api/v1/books
 
 * [**Set book status true for user**](docs/userCreate.md) : `PUT /api/v1/books/read`
 
