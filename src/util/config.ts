@@ -12,12 +12,13 @@ interface Options {
 }
 
 interface DbOptions {
-  dBhost: string;
-  dBport: string;
+  host: string;
+  port: string;
   database: string;
   user: string;
   connectionString: string;
   tableNames: Array<string>;
+  pw: string;
 }
 
 const builder = (): Options => {
@@ -31,19 +32,21 @@ const builder = (): Options => {
 
   if (defaults.node_env !== 'prod') {
     defaults.pg = {
-      dBhost: 'localhost',
-      dBport: 5432,
+      host: process.env.HOST,
+      port: process.env.PRT,
       database: process.env.LOCALDBNAME,
       user: process.env.LOCALUSER,
-      connectionString: process.env.DBURI
+      connectionString: process.env.DBURI,
+      pw: process.env.PW
     };
   } else {
     defaults.pg = {
-      dBhost: process.env.DBHOST,
-      dBport: process.env.DBPORT,
-      database: process.env.DBDATABASE,
-      user: process.env.DBUSER,
-      connectionString: process.env.DBURI
+      host: process.env.DBHOST,
+      port: process.env.PRT,
+      database: process.env.DB,
+      user: process.env.USR,
+      connectionString: process.env.DBURI,
+      pw: process.env.PW
     };
   }
 

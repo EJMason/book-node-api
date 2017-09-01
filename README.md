@@ -37,6 +37,8 @@ cd headspace-book-node-api
 ##### Installation with yarn:
 
 ```
+  yarn install
+  yarn build
   yarn start
 ```
 * this will install the packages, build the typscript into ./dist and start the server

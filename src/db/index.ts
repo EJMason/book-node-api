@@ -4,8 +4,7 @@ import * as promise from 'bluebird';
 import { IMain, IDatabase, IOptions } from 'pg-promise';
 import { QRepo } from './qRepo';
 // import { logger } from '../errors';
-
-// import config from '../util/config';
+import config from '../util/config';
 
 interface IExtensions {
   queries: QRepo;
@@ -28,18 +27,22 @@ const initOptions: IOptions<IExtensions> = {
 // });
 
 // Database connection parameters:
-// const config = {
-//     host: 'localhost',
-//     port: 5432,
-//     database: 'headspace',
-//     user: 'ejm'
-// };
+const opts = {
+    host: config.pg.host,
+    port: config.pg.port,
+    database: config.pg.database,
+    user: config.pg.user,
+    password: config.pg.pw,
+    ssl: true,
+};
 import * as pgPromise from 'pg-promise';
 
 const pgp: IMain = pgPromise(initOptions);
 
-const db = <IDatabase<IExtensions> & IExtensions>pgp(
-  'postgres://ejm:4808@localhost:5432/headspace'
-);
+// const db = <IDatabase<IExtensions> & IExtensions>pgp(
+//   'postgres://ejm:4808@localhost:5432/headspace'
+// );
+// console.log(config.pg.connectionString)
+const db = <IDatabase<IExtensions> & IExtensions>pgp(opts);
 
 export = db;

@@ -7,7 +7,6 @@
   "author": "EJMason <eliotjunior@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "prestart": "yarn install && tsc",
     "start": "node ./dist/server.js",
     "install:npm": "npm isntall && npm tsc && node ./dist/server.js",
     "build": "tsc",
