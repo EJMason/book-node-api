@@ -89,21 +89,20 @@ API conform to REST principles and ensure the enpoints made sense for CRUD opera
 
 * [**CREATE new user**](docs/userCreate.md) : `POST /users`
 
-* [**GET users books**](docs/userCreate.md) : `GET /users/books`
+* [**GET users books**](docs/getBooks.md) : `GET /users/books`
   * filter by author `?author={name}`
   * filter by read   `?read={true/false}`
   * filers may be combined
 
-* [**Add book to user Library**](docs/userCreate.md) : `PUT /user/:users_id/books/books_id`
+* [**CREATE new book**](docs/addBook.md) : `POST /books`
 
+* [**Add book to user Library**](docs/addBookUser.md) : `PUT /user/:users_id/books/books_id`
 
-* [**Delete from Library**](docs/userCreate.md) : `DELETE /users/:users_id/books/:books_id`
+* [**Delete from Library**](docs/deleteBookUser.md) : `DELETE /users/:users_id/books/:books_id`
 
-* [**CREATE new book**](docs/userCreate.md) : `POST /books`
+* [**Set book status true for user**](docs/bookTrue.md) : `PUT /books/read`
 
-* [**Set book status true for user**](docs/userCreate.md) : `PUT /books/read`
-
-* [**Set book status false for user**](docs/userCreate.md) : `PUT /books/unread`
+* [**Set book status false for user**](docs/bookFalse.md) : `PUT /books/unread`
 
 
 
