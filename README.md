@@ -85,28 +85,24 @@ I designed the schema in this way so the users_books relation table (many-to-man
 
 API conform to REST principles and ensure the enpoints made sense for CRUD operations. Explanations for each endpoint below:
 
-* [**CREATE new user**](docs/userCreate.md) : `POST /api/v1/user`
+* [**CREATE new user**](docs/userCreate.md) : `POST /api/v1/users`
 
-These endpoints retrieve and set data related to:
+* [**GET users books**](docs/userCreate.md) : `GET /api/v1/users/books`
+  * filter by author `?author={name}`
+  * filter by read   `?read={true/false}`
+  * filers may be combined
 
-* Information about the user
-* The users library or collection of books
+* [**Add book to user Library**](docs/userCreate.md) : `PUT /api/v1/user/:users_id/books/books_id`
 
-CRUD Operations related to User:
-###
-* [CREATE new user](user/get.md) : `POST /api/v1/user`
-* [GET users collection of books](user/put.md) : `PUT /api/user/books`
 
-### Account related
+*[**Delete from Library**](docs/userCreate.md) : `DELETE /users/:users_id/books/:books_id`
 
-Endpoints for viewing and manipulating the Accounts that the Authenticated User
-has permissions to access.
+* [**CREATE new book**](docs/userCreate.md) : `POST /api/v1/books`
 
-* [Show Accessible Accounts](accounts/get.md) : `GET /api/accounts/`
-* [Create Account](accounts/post.md) : `POST /api/accounts/`
-* [Show An Account](accounts/pk/get.md) : `GET /api/accounts/:pk/`
-* [Update An Account](accounts/pk/put.md) : `PUT /api/accounts/:pk/`
-* [Delete An Account](accounts/pk/delete.md) : `DELETE /api/accounts/:pk/`
+* [**Set book status true for user**](docs/userCreate.md) : `PUT /api/v1/books/read`
+
+* [**Set book status false for user**](docs/userCreate.md) : `PUT /api/v1/books/unread`
+
 
 
 
