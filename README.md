@@ -2,11 +2,11 @@
 
 Name: EJ Mason
 
-Gitub: link to github
+Gitub: [https://github.com/EJMason](https://github.com/EJMason)
 
-email: eliotjunior@gmail.com
+email: **eliotjunior@gmail.com**
 
-linkedin: put here
+linkedin: [linkedin.com/in/eliotmason/](linkedin.com/in/eliotmason/)
 
 Create an api to manage users and books. The api can be consumed in the following ways:
 
