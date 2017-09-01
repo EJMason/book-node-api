@@ -1,6 +1,6 @@
-# User: Create new user
+# Mark Users's Book Read
 
-Marks a book in a users collection as true
+Marks a book in a users collection as read
 
 **URL** : `/api/v1/books/read`
 
