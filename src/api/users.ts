@@ -3,6 +3,7 @@ import { Router } from 'express';
 import * as express from 'express';
 import * as winston from 'winston';
 import * as chalk from 'chalk';
+import db = require('../db');
 
 import config from '../util/config';
 
@@ -21,14 +22,13 @@ winston.handleExceptions(
 );
 
 // --------------------------------------------------------------------
-import db = require('../db');
+
 
 export class UserRouting {
   router: express.Router;
 
   constructor() {
     this.router = Router();
-
 
     this.router.get('/books/:users_id', this.getUsersBooks);
     this.router.post('/', this.validateUsr, this.addUser);
@@ -41,51 +41,32 @@ export class UserRouting {
     this.router.use(this.errorHandlerUsers);
   }
 
-  // -------- Routes ------------//
-// ! ==========================================================
-/**
- * GET - /api/v1/users/books
- *
- * filter by author_id    /users/books?author=name
- *   author_id, user_id
- * sort by read           /books?read=true
- *
- * filter by read |unread  /books?read=true
- *
- * filter by read
- * sorted by read and unread
- */
-private getUsersBooks = async (req, res, next) => {
-  let books = await db.queries.getAllUsersBooks(req.params);
-
-  books = this.bookFilter(books, req.query);
-
-  res.status(200).send(books);
-
-}
-
-private bookFilter = (books, query) => {
-  return books.filter(book => {
-    if (query.hasOwnProperty('read') && !(book.read.toString() === query.read)) {
-      return false;
-    }
-    if (query.hasOwnProperty('author') && !(book.author.toLowerCase() === query.author.toLowerCase())) {
-      return false;
-    }
-    return true;
-  });
-}
-
-// ! ==========================================================
-// ! ==========================================================
-// ! ==========================================================
-// ! ==========================================================
-
+    // -------- Routes ------------//
   /**
-   * Add user to ddatabase
-   *  POST - /api/v1/users
-   * req.body: { user_name }
+   * /api/v1/users/books
+   * filter by author    /users/books?author=name
+   * filter by read |unread  /books?read=true
+   * sorted by read and unread
    */
+  private getUsersBooks = async (req, res, next) => {
+    let books = await db.queries.getAllUsersBooks(req.params);
+
+    books = this.bookFilter(books, req.query);
+
+    res.status(200)
+    .send({
+      data: books
+    });
+
+  }
+
+
+
+    /**
+     * Add user to ddatabase
+     *  POST - /api/v1/users
+     * req.body: { user_name }
+     */
   private addUser = async (req, res, next) => {
     try {
       const user = await db.queries.createUser(req.body);
@@ -96,63 +77,72 @@ private bookFilter = (books, query) => {
       .send({
         data: [user]
       });
-
-  } catch (err) {
-    next(err);
-  }
-}
-
-
-
-/**
- * POST /api/v1/users/:users_id/books/:books_id
- * req.params.users_id
- * --- Associates a book with a user
- * ! I SHOULD join the data here...
- */
-private addToLibrary = (req, res, next) => {
-  logger.verbose(chalk.red('\n\n-------- Add Library ----------\n\n'));
-  if (req.params.users_id === 'books') {
-    next();
+    } catch (err) {
+      next({ xError: {
+          status: 400,
+          code: null,
+          message: 'invalid input',
+          default: err
+        }
+      });
+    }
   }
 
-  db.queries
-  .addToLibrary(req.params)
-  .then((d) => {
 
-    if (d) {
-      res
-      .status(200)
-      .send({ data: [d] });
+
+  /**
+   * POST /api/v1/users/:users_id/books/:books_id
+   * req.params.users_id
+   * --- Associates a book with a user
+   * ! I SHOULD join the data here...
+   */
+  private addToLibrary = (req, res, next) => {
+    logger.verbose(chalk.red('\n\n-------- Add Library ----------\n\n'));
+    if (req.params.users_id === 'books') {
+      next();
     }
-    else {
-      next([304, 'Does not exist']);
-    }
 
-  }).catch(next);
-}
+    db.queries
+    .addToLibrary(req.params)
+    .then((d) => {
+      if (d) {
+        res
+        .status(200)
+        .send({ data: [d] });
+      }
+      else {
+        next({ xError: {
+            status: 304,
+            code: null,
+            message: 'DNE',
+          }
+        });
+      }
+
+    }).catch(next);
+  }
 
 
 
-/**  ! ----- DELETE ------
- *  /api/v1/users/:user_id/books/:books_id
- * req.params.users_id
- * req.body.books_id (allows for batch add + remove)
- *
- * Handle if,
- * user sends incorrect data
- */
-private removeFromLibrary = (req, res, next) => {
-  logger.verbose(chalk.red('\n\n-------- Remove From Library ----------\n\n'));
-  db.queries
-    .libraryDelete(req.params)
-    .then(item => {
-      res
-      .status(204)
-      .send({ data: [] });
-    })
-    .catch(next);
-}
+  /**  ! ----- DELETE ------
+   *  /api/v1/users/:user_id/books/:books_id
+   * req.params.users_id
+   * req.body.books_id (allows for batch add + remove)
+   *
+   * Handle if,
+   * user sends incorrect data
+   */
+  private removeFromLibrary = (req, res, next) => {
+     logger.verbose(chalk.red('\n\n-------- Remove From Library ----------\n\n'));
+    db.queries
+      .libraryDelete(req.params)
+      .then(item => {
+        res
+        .status(204)
+        .send({ data: [] });
+      })
+      .catch(next);
+  }
 
 
 
@@ -175,8 +165,20 @@ private removeFromLibrary = (req, res, next) => {
 
 
 
+  private bookFilter = (books, query) => {
+    return books.filter(book => {
+      if (query.hasOwnProperty('read') && !(book.read.toString() === query.read)) {
+        return false;
+      }
+      if (query.hasOwnProperty('author') && !(book.author.toLowerCase() === query.author.toLowerCase())) {
+        return false;
+      }
+      return true;
+    });
+  }
 
-  // ---------------- MIDDLEWARE ---------------------------------- //
+
+    // ---------------- MIDDLEWARE ---------------------------------- //
 
   private handleDelete = (req, res, next) => {
     logger.verbose(chalk.blue('\n\n-------- Middleware Handle Delete ----------\n\n'));
@@ -193,10 +195,10 @@ private removeFromLibrary = (req, res, next) => {
     }
   };
 
-  /**
-   * Validates user data
-   * /users
-   */
+    /**
+     * Validates user data
+     * /users
+     */
   private validateUsr = async (req, res, next) => {
     logger.verbose(chalk.blue('\n\n-------- Middleware Validate User ----------\n\n'));
 
@@ -233,12 +235,10 @@ private removeFromLibrary = (req, res, next) => {
 
     logger.debug(chalk.magenta('Route: '),  req.route);
     // lots of info in the route
-    const error = Object.assign({}, err.xError);
+    const error = Object.assign({status: 400, message: "¯\_(ツ)_/¯" }, err.xError);
     const status = (!err.xError) ? 400 : err.xError.status;
     res.status(status || 400).send({
-      error: {
-        ...error
-      },
+      error,
       message: 'Oops, it looks like there was an error!',
       data: []
     });

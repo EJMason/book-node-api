@@ -61,7 +61,7 @@ export class QRepo {
   public createBook = async book => {
     // winston.info('createBookDB Method', book);
     const a = await this.db.one(sql.queries.authorInsert, book.author);
-    if (a) return this.db.one(sql.queries.bookInsert, [book.name, a.id]);
+    if (a) return this.db.one(sql.queries.bookInsert, [book.title, a.id]);
     return undefined;
   };
 
@@ -85,9 +85,10 @@ export class QRepo {
   }
 
   public toggleUnRead(lib: any): Promise<any> {
+    console.log('==============>', lib)
     return this.db.oneOrNone(sql.queries.bookToggleBooleanUnRead, [
-      lib.users_id,
-      lib.books_id
+      `${lib.users_id}`,
+      `${lib.books_id}`
     ]);
   }
 

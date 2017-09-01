@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import * as express from 'express';
 
+// Dont worry about this component. I provides minor type inheritance
+
 export interface RouterInterface {
   endpoints: () => void;
 }
@@ -32,6 +34,4 @@ abstract class Base {
 
   // ----------- HELPERS --------------- //
 }
-
-// const base = new BaseRouter();
 export default Base;
