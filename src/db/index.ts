@@ -29,7 +29,7 @@ const initOptions: IOptions<IExtensions> = {
 // Database connection parameters:
 const opts = {
     host: config.pg.host,
-    port: config.pg.port,
+    port: 24964,
     database: config.pg.database,
     user: config.pg.user,
     password: config.pg.pw,

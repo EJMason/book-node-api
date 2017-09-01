@@ -34,14 +34,14 @@ const builder = (): Options => {
     defaults.pg = {
       host: process.env.HOST,
       port: process.env.PRT,
-      database: process.env.LOCALDBNAME,
-      user: process.env.LOCALUSER,
+      database: process.env.DB,
+      user: process.env.USR,
       connectionString: process.env.DBURI,
       pw: process.env.PW
     };
   } else {
     defaults.pg = {
-      host: process.env.DBHOST,
+      host: process.env.HOST,
       port: process.env.PRT,
       database: process.env.DB,
       user: process.env.USR,

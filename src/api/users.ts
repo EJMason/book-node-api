@@ -68,7 +68,6 @@ export class UserRouting {
   private addUser = async (req, res, next) => {
     try {
       const user = await db.queries.createUser(req.body);
-      logger.debug('Data from SQL: ' + JSON.stringify(user));
 
       res
       .status(201)
@@ -165,13 +164,13 @@ export class UserRouting {
    */
   private bookFilter = (books, query) => {
     return books.filter(book => {
-      if (query.hasOwnProperty('read')
-        && !(book.read.toString() === query.read)) {
+      if (query.hasOwnProperty('read') && !(book.read.toString() === query.read)) {
         return false;
       }
       if (query.hasOwnProperty('author')
         && !(book.author.toLowerCase() === query.author.toLowerCase())) {
-        return false;
+          // console.log(book.read.toString() + ' | ' + query.read);
+          return false;
       }
       return true;
     });
@@ -183,7 +182,6 @@ export class UserRouting {
    * Validates delete method
    */
   private handleDelete = (req, res, next) => {
-    logger.verbose(chalk.blue('\n\n-------- Middleware Handle Delete ----------\n\n'));
     if (!req.params.books_id || !req.params.users_id) {
       next({
         xError: {
@@ -202,9 +200,6 @@ export class UserRouting {
    * /users
    */
   private validateUsr = async (req, res, next) => {
-    logger.verbose(chalk.blue('\n\n-------- Middleware Validate User ----------\n\n'));
-
-    logger.debug(chalk.red('USERS: validateUsr'));
     const usr = req.body.user_name;
 
     if (!usr || typeof usr !== 'string') {
@@ -233,6 +228,7 @@ export class UserRouting {
    * Handles all error requests
    */
   private errorHandlerUsers = (err, req, res, next) => {
+    // set verbose turned off
     logger.verbose(chalk.blue('\n\n-------- Error: Handle for Users ----------\n\n'));
     winston.verbose(err);
     logger.verbose(chalk.magenta('Path: '),  req.path);

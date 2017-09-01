@@ -70,6 +70,10 @@ or...
 * gulp
 * supertest mock api testing
 
+#### Project structure
+
+Since I developed this application for a coding challenge I put a lot of the code in the same floders that I normally separate. I wanted to make it easier to read so grouped the code a little more. For instance, for each route I use a router, controller, utility and services folder. This time I only created 2 files.
+
 ## Database and Persistence
 
 * PostgresQL relational database
@@ -80,7 +84,18 @@ or...
 
 ![db-relations](https://i.imgur.com/KFoihbk.png)
 
-I designed the schema in this way so the users_books relation table (many-to-many) would keep track of the collections or librairies of each user. All queries are performed with raw sql. The files are in the repository. The actual sql files are consumed which enables the sql to be changed without bringing down the database.
+I designed the schema in this way so the users_books relation table (many-to-many) would keep track of the collections or librairies of each user. I also created an authors table to reduce how much space the authors would consume.
+
+ All queries are performed with raw sql. The files are in the repository. The actual sql files are consumed which enables the sql to be changed without bringing down the database.
+
+#### If I had infite time: My system design
+There are a lot of things I would have done differently for the overall design of the application.
+
+* **Authentication** would be a must. Using JWT would have made the routes much more simple since users could pass user information in the Bearer header.
+
+* **Caching** the queries would be useful here. It might take a while for data to become stale with a library application.
+
+* **Better Typing** for Typescript. As the project wore on I was forced to use the any keyword to finish, but I would love to interface all the data in the application. **I LOVE  Typscript + Node + Express.**
 
 
 # API design and process
@@ -106,8 +121,18 @@ API conform to REST principles and ensure the enpoints made sense for CRUD opera
 
 * [**Set book status false for user**](docs/bookFalse.md) : `PUT /books/unread`
 
+# Testing the API
+The database is a could instance so you should be able to connect.Once the server is running, the easiest way to test the API will be using the postman sample file I have created. download it here:
+
+### [Postman Route Tester]()
 
 
+### Other Notes
+* Database connects to an external instance. See .env file for urls.
+
+* Unfortunalty, half of the unit tests are no longer working since a sql library I started with didn't suport typescript. My tests where running with the typescript code and I didn't know until I had written all the tests. Sadly, not enough time to refactor them.
+
+* Feel free to contact me with any questions in regards to the application!
 
 
 
