@@ -95,7 +95,7 @@ API conform to REST principles and ensure the enpoints made sense for CRUD opera
 * [**Add book to user Library**](docs/userCreate.md) : `PUT /api/v1/user/:users_id/books/books_id`
 
 
-*[**Delete from Library**](docs/userCreate.md) : `DELETE /users/:users_id/books/:books_id`
+* [**Delete from Library**](docs/userCreate.md) : `DELETE /users/:users_id/books/:books_id`
 
 * [**CREATE new book**](docs/userCreate.md) : `POST /api/v1/books`
 
