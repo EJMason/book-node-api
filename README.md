@@ -86,7 +86,7 @@ I designed the schema in this way so the users_books relation table (many-to-man
 API conform to REST principles and ensure the enpoints made sense for CRUD operations. Explanations for each endpoint below:
 
 
-### User: Create new user
+## User: Create new user
 
 Create a new user in the database. Ensures that there can be no duplicates. Must conform to a length and style criteria
 
