@@ -8,19 +8,6 @@ email: **eliotjunior@gmail.com**
 
 linkedin: [linkedin.com/in/eliotmason/](linkedin.com/in/eliotmason/)
 
-Create an api to manage users and books. The api can be consumed in the following ways:
-
-* Create user accounts with unique user names.
-* Create a book that has a title and a library.
-* Add books to users libraries in the 'unread' state.
-* Mark books as read or unread for a specific user.
-* Remove books from a users library.
-* List all books in a user's library:
-  * FILTER by author
-  * FILTER by read/unread.
-
-* Assumptions given: Security is not a concern.
-
 ## Installation & Setup
 
 * Navigate to the project root:
