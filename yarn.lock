@@ -45,9 +45,9 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@types/bluebird@*", "@types/bluebird@^3.5.8":
-  version "3.5.8"
-  resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.8.tgz#242a83379f06c90f96acf6d1aeab3af6faebdb98"
+"@types/bluebird@*", "@types/bluebird@^3.5.29":
+  version "3.5.29"
+  resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.29.tgz#7cd933c902c4fc83046517a1bef973886d00bdb6"
 
 "@types/body-parser@^1.19.0":
   version "1.19.0"
