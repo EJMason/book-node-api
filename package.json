@@ -52,7 +52,7 @@
     "winston": "^2.3.1"
   },
   "devDependencies": {
-    "@types/bluebird": "^3.5.8",
+    "@types/bluebird": "^3.5.29",
     "@types/body-parser": "^1.19.0",
     "@types/cors": "^2.8.6",
     "@types/dotenv": "^4.0.1",
