@@ -36,6 +36,12 @@
   dependencies:
     "@types/node" "*"
 
+"@types/continuation-local-storage@*":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@types/continuation-local-storage/-/continuation-local-storage-3.2.2.tgz#7cbf177a6206ece87bc4b808784772ad2aa5f6db"
+  dependencies:
+    "@types/node" "*"
+
 "@types/cors@^2.8.6":
   version "2.8.6"
   resolved "https://registry.yarnpkg.com/@types/cors/-/cors-2.8.6.tgz#cfaab33c49c15b1ded32f235111ce9123009bd02"
@@ -89,11 +95,12 @@
   dependencies:
     pg-promise "*"
 
-"@types/sequelize@^4.0.72":
-  version "4.0.72"
-  resolved "https://registry.yarnpkg.com/@types/sequelize/-/sequelize-4.0.72.tgz#ba7f5b6588cf059f3eb7ebf2f1e0a2b6c6f04d3d"
+"@types/sequelize@^4.28.8":
+  version "4.28.8"
+  resolved "https://registry.yarnpkg.com/@types/sequelize/-/sequelize-4.28.8.tgz#e97b5745d25c12881b348533c1d9e750adf8278b"
   dependencies:
     "@types/bluebird" "*"
+    "@types/continuation-local-storage" "*"
     "@types/lodash" "*"
     "@types/validator" "*"
 
