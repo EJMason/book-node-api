@@ -37,7 +37,7 @@
   "dependencies": {
     "@types/sequelize": "^4.0.72",
     "@types/supertest": "^2.0.3",
-    "bluebird": "^3.5.0",
+    "bluebird": "^3.7.2",
     "body-parser": "^1.17.2",
     "chalk": "^2.1.0",
     "cors": "^2.8.4",
