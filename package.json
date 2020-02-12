@@ -59,7 +59,7 @@
     "@types/express": "^4.17.2",
     "@types/helmet": "^0.0.45",
     "@types/jest": "^20.0.8",
-    "@types/node": "^13.7.0",
+    "@types/node": "^13.7.1",
     "@types/pg-promise": "^5.4.3",
     "@types/winston": "^2.3.5",
     "del": "^5.1.0",
