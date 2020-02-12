@@ -77,7 +77,7 @@
     "prettier": "^1.19.1",
     "run-sequence": "^2.2.1",
     "supertest": "^4.0.2",
-    "ts-jest": "^20.0.10",
+    "ts-jest": "^20.0.14",
     "tslint": "^6.0.0",
     "typescript": "^2.4.2"
   }
