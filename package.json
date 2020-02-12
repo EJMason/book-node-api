@@ -61,7 +61,7 @@
     "@types/jest": "^20.0.8",
     "@types/node": "^13.7.0",
     "@types/pg-promise": "^5.4.3",
-    "@types/winston": "^2.3.5",
+    "@types/winston": "^2.4.4",
     "del": "^5.1.0",
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
