@@ -68,7 +68,7 @@
     "gulp-env": "^0.4.0",
     "gulp-nodemon": "^2.4.2",
     "gulp-sourcemaps": "^2.6.5",
-    "gulp-typescript": "^3.2.4",
+    "gulp-typescript": "^5.0.1",
     "gulp-watch": "^5.0.1",
     "husky": "^4.2.3",
     "jest": "^20.0.4",
