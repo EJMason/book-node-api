@@ -15,7 +15,7 @@ linkedin: [linkedin.com/in/eliotmason/](linkedin.com/in/eliotmason/)
 ```
 cd headspace-book-node-api
 ```
-* Next install the required packages in the package.json
+* Install the required packages in the package.json
 
 * Note: A lot of the typescript features use newer versions of Node. It is preferred to have Version > 8.0. It can be downloaded here:
 
