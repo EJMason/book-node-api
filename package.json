@@ -14,7 +14,8 @@
     "test": "jest --verbose",
     "test:api": "gulp watch:testAPI",
     "ts-watch": "tsc --watch",
-    "cleaner": "rm -rf node_modules && rm -rf dist"
+    "cleaner": "rm -rf node_modules && rm -rf dist",
+    "up": "npx npm-check -u -E"
   },
   "jest": {
     "globals": {
@@ -39,7 +40,7 @@
     "@types/supertest": "^2.0.8",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
-    "chalk": "^3.0.0",
+    "chalk": "4.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -57,9 +58,9 @@
     "@types/cors": "^2.8.6",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.2",
-    "@types/helmet": "^0.0.45",
+    "@types/helmet": "0.0.47",
     "@types/jest": "^25.1.3",
-    "@types/node": "^13.7.4",
+    "@types/node": "14.0.5",
     "@types/pg-promise": "^5.4.3",
     "@types/winston": "^2.4.4",
     "del": "^5.1.0",
@@ -71,14 +72,14 @@
     "gulp-typescript": "^5.0.1",
     "gulp-watch": "^5.0.1",
     "husky": "^4.2.3",
-    "jest": "^21.2.1",
+    "jest": "26.0.1",
     "lint-staged": "^10.0.7",
     "nodemon": "^2.0.2",
-    "prettier": "^1.19.1",
+    "prettier": "2.0.5",
     "run-sequence": "^2.2.1",
     "supertest": "^4.0.2",
-    "ts-jest": "^21.2.4",
+    "ts-jest": "26.0.0",
     "tslint": "^6.0.0",
-    "typescript": "^2.9.2"
+    "typescript": "3.9.3"
   }
 }
